@@ -1,4 +1,4 @@
-package kata.game_of_three.impl;
+package kata.game_of_three.impl.autonomous_player;
 
 import kata.game_of_three.*;
 
