@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void shouldAcceptValidMove() {
+    public void shouldAcceptValidPlusOne() {
 
 	Player player1 = mockPlayer("player1");
 	Player player2 = mockPlayer("player2");
@@ -41,6 +41,42 @@ import static org.mockito.Mockito.*;
 	when(games.getGame(gameUuid)).thenReturn(game);
 
 	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 3);
+	gameTable.acceptMove(move);
+
+	verify(player1, times(1)).playTurn(move);
+    }
+
+    @Test
+    public void shouldAcceptValidMoveZero() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 9);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ZERO, 3);
+	gameTable.acceptMove(move);
+
+	verify(player1, times(1)).playTurn(move);
+    }
+
+    @Test
+    public void shouldAcceptValidMoveMinusOne() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 10);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.MINUS_ONE, 3);
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
