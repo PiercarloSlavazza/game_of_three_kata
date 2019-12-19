@@ -17,11 +17,11 @@ class Turn {
 	this.opponentMove = opponentMove;
     }
 
-    public Move getPlayerMove() {
+    @SuppressWarnings("unused") public Move getPlayerMove() {
 	return playerMove;
     }
 
-    public Move getOpponentMove() {
+    @SuppressWarnings("unused") public Move getOpponentMove() {
 	return opponentMove;
     }
 
@@ -56,11 +56,11 @@ class PlayerEndGame {
 	this.gameResult = gameResult;
     }
 
-    public PlayerIdentifier getPlayerIdentifier() {
+    @SuppressWarnings("unused") public PlayerIdentifier getPlayerIdentifier() {
 	return playerIdentifier;
     }
 
-    public GameResult getGameResult() {
+    @SuppressWarnings("unused") public GameResult getGameResult() {
 	return gameResult;
     }
 
