@@ -10,11 +10,13 @@ import java.util.UUID;
 	ZERO, ONE, MINUS_ONE
     }
 
-    private final UUID gameUuid;
-    private final PlayerIdentifier player;
-    private final PlayerIdentifier opponent;
-    private final REPLY reply;
-    private final Integer resultingNumber;
+    private UUID gameUuid;
+    private PlayerIdentifier player;
+    private PlayerIdentifier opponent;
+    private REPLY reply;
+    private Integer resultingNumber;
+
+    @SuppressWarnings("unused") private Move() {}
 
     public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, Integer resultingNumber) {
         this(gameUuid, player, opponent, Optional.empty(), resultingNumber);

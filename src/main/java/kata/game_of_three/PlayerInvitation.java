@@ -4,9 +4,11 @@ import java.util.Objects;
 
 public class PlayerInvitation {
 
-    private final PlayerIdentifier from;
-    private final PlayerIdentifier to;
-    private final Integer gameInception;
+    private PlayerIdentifier from;
+    private PlayerIdentifier to;
+    private Integer gameInception;
+
+    @SuppressWarnings("unused") private PlayerInvitation() {}
 
     public PlayerInvitation(PlayerIdentifier from, PlayerIdentifier to, Integer gameInception) {
 	this.from = from;
