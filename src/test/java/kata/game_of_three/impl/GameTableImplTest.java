@@ -85,25 +85,6 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-    public void shouldNotAcceptNumberNotDivisibleByThree() {
-
-	Player player1 = mockPlayer("player1");
-	Player player2 = mockPlayer("player2");
-
-	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
-
-	Game game = new Game(gameUuid, player1, player2, lastMove);
-	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
-
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 7);
-	gameTable.acceptMove(move);
-
-	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
-	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
-    }
-
-    @Test
     public void shouldNotAcceptNumberLowerThanThree() {
 
 	Player player1 = mockPlayer("player1");

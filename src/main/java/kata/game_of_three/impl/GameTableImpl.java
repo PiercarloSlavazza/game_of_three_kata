@@ -16,10 +16,6 @@ public class GameTableImpl implements GameTable {
 
     }
 
-    private boolean isNumberDivisibleByThree(Integer number) {
-	return number % 3 == 0;
-    }
-
     private int getAddedNumber(Move move) {
 	switch (move.getReply()) {
 	    case ZERO:
@@ -36,7 +32,6 @@ public class GameTableImpl implements GameTable {
     private boolean isValidNumber(Move move, Move lastMove) {
 	Integer moveNumber = move.getResultingNumber();
 	if (moveNumber < 3) return false;
-	if (!isNumberDivisibleByThree(moveNumber)) return false;
 
 	int addedNumber = getAddedNumber(move);
 	return ((lastMove.getResultingNumber() + addedNumber) / 3) == moveNumber;
