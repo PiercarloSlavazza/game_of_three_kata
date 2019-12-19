@@ -2,14 +2,20 @@ package kata.game_of_three.impl.autonomous_player;
 
 import kata.game_of_three.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AutonomousPlayer implements Player {
 
     private final PlayerIdentifier playerIdentifier;
     private final GameTable gameTable;
+    private final List<AutonomousPlayerEventsListener> playerEventsListeners;
 
-    AutonomousPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable) {
+    AutonomousPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable,
+		     AutonomousPlayerEventsListener... playerEventsListeners) {
 	this.playerIdentifier = playerIdentifier;
 	this.gameTable = gameTable;
+	this.playerEventsListeners = Arrays.asList(playerEventsListeners);
     }
 
     @Override public PlayerIdentifier getIdentifier() {
@@ -28,19 +34,20 @@ public class AutonomousPlayer implements Player {
 	throw new IllegalStateException("reply must be in [-1, 1] but is" + reply);
     }
 
-    @Override public void playTurn(Move move) {
-        int opponentNumber = move.getResultingNumber();
+    @Override public void playTurn(Move opponentMove) {
+	int opponentNumber = opponentMove.getResultingNumber();
 	int reply = computeReply(opponentNumber);
 	assert reply >=-1 && reply <=1 : "reply must be in [-1, 1] but is" + reply;
 
 	int resultingNumber = (opponentNumber + reply) / 3;
 	Move.REPLY normalizedReply = normalizeReply(reply);
 
-	Move replyMove = new Move(move.getGameUuid(), playerIdentifier, move.getPlayer(), normalizedReply, resultingNumber);
+	Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedReply, resultingNumber);
 	gameTable.acceptMove(replyMove);
+	playerEventsListeners.forEach(listener -> listener.onPlayTurn(replyMove, opponentMove));
     }
 
     @Override public void endGame(GameResult gameResult) {
-
+        playerEventsListeners.forEach(listener -> listener.onEndGame(gameResult));
     }
 }
