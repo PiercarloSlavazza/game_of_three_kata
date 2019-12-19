@@ -79,6 +79,9 @@ public class GameTableImpl implements GameTable {
 	    return;
 	}
 
-	opponent.ifPresent(_opponent -> acceptMove(player, _opponent, move, _game.getLastMove(), _game));
+	opponent.ifPresent(_opponent -> {
+	    Move lastMove = _game.getLastMove().orElseThrow(() -> new IllegalStateException("game does not have a last move"));
+	    acceptMove(player, _opponent, move, lastMove, _game);
+	});
     }
 }

@@ -4,18 +4,26 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Game {
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class Game {
 
     private final UUID gameUuid;
     private final Player player1;
     private final Player player2;
     private Move lastMove;
 
+    public Game(UUID gameUuid, Player player1, Player player2) {
+	this(gameUuid, player1, player2, Optional.empty());
+    }
+
     public Game(UUID gameUuid, Player player1, Player player2, Move lastMove) {
+        this(gameUuid, player1, player2, Optional.of(lastMove));
+    }
+
+    private Game(UUID gameUuid, Player player1, Player player2, Optional<Move> lastMove) {
 	this.gameUuid = gameUuid;
 	this.player1 = player1;
 	this.player2 = player2;
-	this.lastMove = lastMove;
+	this.lastMove = lastMove.orElse(null);
     }
 
     public Optional<Player> getPlayerById(PlayerIdentifier playerIdentifier) {
@@ -47,8 +55,8 @@ public class Game {
 	this.lastMove = lastMove;
     }
 
-    public Move getLastMove() {
-	return lastMove;
+    public Optional<Move> getLastMove() {
+	return Optional.ofNullable(lastMove);
     }
 
     @Override public String toString() {

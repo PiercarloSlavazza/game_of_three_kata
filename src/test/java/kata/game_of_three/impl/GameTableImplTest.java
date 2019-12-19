@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -69,7 +70,8 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertEquals(game.getLastMove(), move);
+	assertTrue(game.getLastMove().isPresent());
+	assertEquals(game.getLastMove().get(), move);
     }
 
     @Test
@@ -88,7 +90,8 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertEquals(game.getLastMove(), move);
+	assertTrue(game.getLastMove().isPresent());
+	assertEquals(game.getLastMove().get(), move);
     }
 
     @Test
@@ -107,7 +110,8 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertEquals(game.getLastMove(), move);
+	assertTrue(game.getLastMove().isPresent());
+	assertEquals(game.getLastMove().get(), move);
     }
 
     @Test
