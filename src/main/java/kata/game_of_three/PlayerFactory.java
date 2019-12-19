@@ -1,7 +1,9 @@
 package kata.game_of_three;
 
+import java.util.Optional;
+
 public interface PlayerFactory {
 
-    Player buildPlayer(PlayerIdentifier playerIdentifier);
+    Optional<Player> buildPlayer(PlayerIdentifier playerIdentifier);
 
 }

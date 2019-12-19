@@ -8,14 +8,28 @@ public class GameTableImpl implements GameTable {
 
     private final Games games;
     private final PlayerFactory playerFactory;
+    private final UUIDProvider uuidProvider;
 
-    GameTableImpl(Games games, PlayerFactory playerFactory) {
+    GameTableImpl(Games games, PlayerFactory playerFactory, UUIDProvider uuidProvider) {
 	this.games = games;
 	this.playerFactory = playerFactory;
+	this.uuidProvider = uuidProvider;
     }
 
     @Override public void invitePlayer(PlayerInvitation playerInvitation) {
+	Player starterPlayer = playerFactory.buildPlayer(playerInvitation.getFrom()).orElseThrow(() -> new RuntimeException("unknown start player|" + playerInvitation.getFrom()));
+        Optional<Player> invitedPlayer = playerFactory.buildPlayer(playerInvitation.getTo());
+        if (!invitedPlayer.isPresent()) {
+            starterPlayer.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
+            return;
+	}
 
+	Player _invitedPlayer = invitedPlayer.get();
+        Game game = new Game(uuidProvider.getUUID(), starterPlayer, _invitedPlayer);
+        games.startGame(game);
+
+        Move move = new Move(game.getGameUuid(), starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), Move.REPLY.ZERO, playerInvitation.getGameInception());
+        _invitedPlayer.playTurn(move);
     }
 
     private int getAddedNumber(Move move) {

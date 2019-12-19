@@ -7,9 +7,7 @@ import org.junit.Test;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @SuppressWarnings("Duplicates") public class GameTableImplTest {
@@ -17,12 +15,14 @@ import static org.mockito.Mockito.*;
     private Games games;
     private GameTableImpl gameTable;
     private PlayerFactory playerFactory;
+    private UUIDProvider uuidProvider;
 
     @Before
     public void setUp() {
 	games = mock(Games.class);
 	playerFactory = mock(PlayerFactory.class);
-	gameTable = new GameTableImpl(games, playerFactory);
+	uuidProvider = mock(UUIDProvider.class);
+	gameTable = new GameTableImpl(games, playerFactory, uuidProvider);
     }
 
     private static Player mockPlayer(String playerId) {
@@ -240,12 +240,20 @@ import static org.mockito.Mockito.*;
     public void shouldStartGameOnInvitation() {
 
 	Player player1 = mockPlayer("player1");
+	when(playerFactory.buildPlayer(player1.getIdentifier())).thenReturn(Optional.of(player1));
 	Player player2 = mockPlayer("player2");
+	when(playerFactory.buildPlayer(player2.getIdentifier())).thenReturn(Optional.of(player2));
+
+	UUID gameUuid = UUID.randomUUID();
+	when(uuidProvider.getUUID()).thenReturn(gameUuid);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
 	gameTable.invitePlayer(playerInvitation);
 
-
+	Game expectedGame = new Game(gameUuid, player1, player2);
+	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, playerInvitation.getGameInception());
+	verify(games, times(1)).startGame(expectedGame);
+	verify(player2, times(1)).playTurn(expectedMove);
     }
 }
 

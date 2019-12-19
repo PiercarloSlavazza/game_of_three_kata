@@ -9,7 +9,7 @@ public class GameResult {
     }
 
     public enum GAME_OUTCOME_REASON {
-        INVALID_MOVE, GOT_ONE
+        INVALID_MOVE, GOT_ONE, UNKNOWN_PLAYER
     }
 
     private final GAME_OUTCOME gameOutcome;
