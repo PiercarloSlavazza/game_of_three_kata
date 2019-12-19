@@ -28,7 +28,7 @@ public class RunIOGameShell {
 	cachedPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 0);
-	gameTable.invitePlayer(playerInvitation);
+	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
     }
 
 }

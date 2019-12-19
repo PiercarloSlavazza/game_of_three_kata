@@ -30,7 +30,7 @@ public class GameTableResource {
     @POST
     @Path("/player_invitation")
     public Response invitePlayer(PlayerInvitation playerInvitation) {
-        gameTable.invitePlayer(playerInvitation);
+        gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
         return Response.ok().build();
     }
 

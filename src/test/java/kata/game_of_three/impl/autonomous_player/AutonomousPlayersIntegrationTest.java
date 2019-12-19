@@ -35,7 +35,7 @@ public class AutonomousPlayersIntegrationTest {
 	cachedPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
-	UUID gameUuid = gameTable.invitePlayer(playerInvitation);
+	UUID gameUuid = gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
 
 	List<Turn> expectedTurns = new ArrayList<>();
 	expectedTurns.add(new Turn(new Move(gameUuid, player2Identifier, player1Identifier, Move.REPLY.ONE, 19),

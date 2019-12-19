@@ -17,10 +17,16 @@ public class GameTableImpl implements GameTable {
 	this.uuidProvider = uuidProvider;
     }
 
-    @Override public UUID invitePlayer(PlayerInvitation playerInvitation) {
+    @Override public UUID invitePlayerAndReturnGameUuid(PlayerInvitation playerInvitation) {
 	UUID gameUuid = uuidProvider.getUUID();
 
 	Player starterPlayer = playerFactory.buildPlayer(playerInvitation.getFrom()).orElseThrow(() -> new RuntimeException("unknown start player|" + playerInvitation.getFrom()));
+
+	if (playerInvitation.getGameInception() < 1) {
+	    starterPlayer.endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    return gameUuid;
+	}
+
         Optional<Player> invitedPlayer = playerFactory.buildPlayer(playerInvitation.getTo());
         if (!invitedPlayer.isPresent()) {
             starterPlayer.endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));

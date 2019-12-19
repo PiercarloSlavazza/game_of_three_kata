@@ -28,7 +28,7 @@ public class RunAutonomousGameShell {
 	cachedPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
-	gameTable.invitePlayer(playerInvitation);
+	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
     }
 
 }

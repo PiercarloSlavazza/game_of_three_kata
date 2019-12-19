@@ -217,7 +217,7 @@ import static org.mockito.Mockito.*;
 	when(uuidProvider.getUUID()).thenReturn(gameUuid);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
-	gameTable.invitePlayer(playerInvitation);
+	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
 
 	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
 	Game expectedGame = new Game(gameUuid, player1, player2, expectedMove);
@@ -237,11 +237,32 @@ import static org.mockito.Mockito.*;
 	when(uuidProvider.getUUID()).thenReturn(gameUuid);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
-	gameTable.invitePlayer(playerInvitation);
+	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
 
 	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
 	Game expectedGame = new Game(gameUuid, player1, player2, expectedMove);
 	verify(player1, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
+	verify(games, times(0)).startGame(expectedGame);
+	verify(player2, times(0)).playTurn(expectedMove);
+    }
+
+    @Test
+    public void shouldNotStartGameWhenInceptionInvalid() {
+
+	Player player1 = mockPlayer("player1");
+	when(playerFactory.buildPlayer(player1.getIdentifier())).thenReturn(Optional.of(player1));
+	Player player2 = mockPlayer("player2");
+	when(playerFactory.buildPlayer(player2.getIdentifier())).thenReturn(Optional.of(player2));
+
+	UUID gameUuid = UUID.randomUUID();
+	when(uuidProvider.getUUID()).thenReturn(gameUuid);
+
+	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 0);
+	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
+
+	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
+	Game expectedGame = new Game(gameUuid, player1, player2, expectedMove);
+	verify(player1, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(games, times(0)).startGame(expectedGame);
 	verify(player2, times(0)).playTurn(expectedMove);
     }
