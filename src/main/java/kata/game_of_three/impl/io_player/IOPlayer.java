@@ -53,6 +53,7 @@ import java.util.Scanner;
 		int resultingNumber = (opponentNumber + reply) / 3;
 		Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedReply.get(), resultingNumber);
 		gameTable.acceptMove(replyMove);
+		printStream.println(String.format("Your move is: %d, %d. Waiting for your opponent...", reply, resultingNumber));
 
 		break;
 	    } catch (InputMismatchException e) {

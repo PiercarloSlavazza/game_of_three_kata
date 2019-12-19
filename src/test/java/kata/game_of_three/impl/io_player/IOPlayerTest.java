@@ -38,7 +38,10 @@ public class IOPlayerTest {
 
 	    outputStream.close();
 	    String lineSeparator = System.getProperty("line.separator");
-	    String playerOutput = String.format("Opponent move: 14%sYour reply [-1,0,1]:%s", lineSeparator, lineSeparator);
+	    String playerOutput = String.format("Opponent move: 14%sYour reply [-1,0,1]:%sYour move is: 1, 5. Waiting for your opponent...%s",
+						lineSeparator,
+						lineSeparator,
+						lineSeparator);
 	    assertEquals(playerOutput, IOUtils.toString(pipedInputStream, "UTF-8"));
 	}
     }
