@@ -3,6 +3,7 @@ package kata.game_of_three.impl;
 import kata.game_of_three.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class GameTableImpl implements GameTable {
 
@@ -17,15 +18,18 @@ public class GameTableImpl implements GameTable {
     }
 
     @Override public void invitePlayer(PlayerInvitation playerInvitation) {
+	UUID gameUuid = uuidProvider.getUUID();
+
 	Player starterPlayer = playerFactory.buildPlayer(playerInvitation.getFrom()).orElseThrow(() -> new RuntimeException("unknown start player|" + playerInvitation.getFrom()));
         Optional<Player> invitedPlayer = playerFactory.buildPlayer(playerInvitation.getTo());
         if (!invitedPlayer.isPresent()) {
-            starterPlayer.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
+            starterPlayer.endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
             return;
 	}
 
 	Player _invitedPlayer = invitedPlayer.get();
-        Game game = new Game(uuidProvider.getUUID(), starterPlayer, _invitedPlayer);
+
+	Game game = new Game(gameUuid, starterPlayer, _invitedPlayer);
         games.startGame(game);
 
         Move move = new Move(game.getGameUuid(), starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), playerInvitation.getGameInception());
@@ -57,15 +61,15 @@ public class GameTableImpl implements GameTable {
 
     private void acceptMove(Player player, Player opponent, Move move, Move lastMove, Game game) {
 	if (!isValidNumber(move, lastMove)) {
-	    player.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
-	    opponent.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    opponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	    games.endGame(game.getGameUuid());
 	    return;
 	}
 
 	if (move.getResultingNumber() == 3) {
-	    player.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
-	    opponent.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    opponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
 	    games.endGame(move.getGameUuid());
 	    return;
 	}
@@ -88,9 +92,9 @@ public class GameTableImpl implements GameTable {
 
 	Optional<Player> opponent = _game.getPlayerById(move.getOpponent());
 	if (!opponent.isPresent()) {
-	    player.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	    Player actualOpponent = _game.getOpponent(player.getIdentifier());
-	    actualOpponent.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    actualOpponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	    games.endGame(_game.getGameUuid());
 	    return;
 	}

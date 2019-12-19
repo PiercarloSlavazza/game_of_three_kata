@@ -11,7 +11,7 @@ public class AutonomousPlayer implements Player {
     private final GameTable gameTable;
     private final List<AutonomousPlayerEventsListener> playerEventsListeners;
 
-    AutonomousPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable,
+    public AutonomousPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable,
 		     AutonomousPlayerEventsListener... playerEventsListeners) {
 	this.playerIdentifier = playerIdentifier;
 	this.gameTable = gameTable;
@@ -48,6 +48,6 @@ public class AutonomousPlayer implements Player {
     }
 
     @Override public void endGame(GameResult gameResult) {
-        playerEventsListeners.forEach(listener -> listener.onEndGame(gameResult));
+        playerEventsListeners.forEach(listener -> listener.onEndGame(playerIdentifier, gameResult));
     }
 }

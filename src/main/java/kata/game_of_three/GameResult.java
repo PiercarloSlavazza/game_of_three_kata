@@ -1,6 +1,7 @@
 package kata.game_of_three;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class GameResult {
 
@@ -12,12 +13,18 @@ public class GameResult {
         INVALID_MOVE, GOT_ONE, UNKNOWN_PLAYER
     }
 
+    private final UUID gameUuid;
     private final GAME_OUTCOME gameOutcome;
     private final GAME_OUTCOME_REASON gameOutcomeReason;
 
-    public GameResult(GAME_OUTCOME gameOutcome, GAME_OUTCOME_REASON gameOutcomeReason) {
+    public GameResult(UUID gameUuid, GAME_OUTCOME gameOutcome, GAME_OUTCOME_REASON gameOutcomeReason) {
+	this.gameUuid = gameUuid;
 	this.gameOutcome = gameOutcome;
 	this.gameOutcomeReason = gameOutcomeReason;
+    }
+
+    public UUID getGameUuid() {
+	return gameUuid;
     }
 
     public GAME_OUTCOME getGameOutcome() {
@@ -30,7 +37,8 @@ public class GameResult {
 
     @Override public String toString() {
 	return "GameResult{" +
-			"gameOutcome=" + gameOutcome +
+			"gameUuid=" + gameUuid +
+			", gameOutcome=" + gameOutcome +
 			", gameOutcomeReason=" + gameOutcomeReason +
 			'}';
     }
@@ -41,11 +49,12 @@ public class GameResult {
 	if (!(o instanceof GameResult))
 	    return false;
 	GameResult that = (GameResult) o;
-	return gameOutcome == that.gameOutcome &&
+	return Objects.equals(gameUuid, that.gameUuid) &&
+			gameOutcome == that.gameOutcome &&
 			gameOutcomeReason == that.gameOutcomeReason;
     }
 
     @Override public int hashCode() {
-	return Objects.hash(gameOutcome, gameOutcomeReason);
+	return Objects.hash(gameUuid, gameOutcome, gameOutcomeReason);
     }
 }

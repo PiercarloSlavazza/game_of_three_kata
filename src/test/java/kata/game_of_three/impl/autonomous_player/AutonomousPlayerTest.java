@@ -77,9 +77,9 @@ public class AutonomousPlayerTest {
 	AutonomousPlayerEventsListener playerEventsListener = mock(AutonomousPlayerEventsListener.class);
 	AutonomousPlayer autonomousPlayer = new AutonomousPlayer(GameOfThreeMockUtils.mockPlayerIdentifier("player2"), gameTable, playerEventsListener);
 
-	GameResult gameResult = new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE);
+	GameResult gameResult = new GameResult(UUID.randomUUID(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE);
 	autonomousPlayer.endGame(gameResult);
-	verify(playerEventsListener, times(1)).onEndGame(gameResult);
+	verify(playerEventsListener, times(1)).onEndGame(autonomousPlayer.getIdentifier(), gameResult);
     }
 
 }
