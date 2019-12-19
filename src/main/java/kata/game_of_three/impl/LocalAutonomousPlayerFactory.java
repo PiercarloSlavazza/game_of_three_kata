@@ -12,13 +12,13 @@ public class LocalAutonomousPlayerFactory implements PlayerFactory, PlayerIdenti
     private final GameTable gameTable;
     private final AutonomousPlayerEventsListener[] playerEventsListeners;
 
-    public LocalAutonomousPlayerFactory(GameTable gameTable, AutonomousPlayerEventsListener[] playerEventsListeners) {
+    public LocalAutonomousPlayerFactory(GameTable gameTable, AutonomousPlayerEventsListener... playerEventsListeners) {
 	this.gameTable = gameTable;
 	this.playerEventsListeners = playerEventsListeners;
     }
 
     @Override public Optional<Player> buildPlayer(PlayerIdentifier playerIdentifier) {
-	return Optional.empty();
+	return Optional.of(playerIdentifier.accept(this));
     }
 
     @Override public Player visit(RemotePlayerIdentifier playerIdentifier) {
