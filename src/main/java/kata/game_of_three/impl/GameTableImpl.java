@@ -17,14 +17,14 @@ public class GameTableImpl implements GameTable {
 	this.uuidProvider = uuidProvider;
     }
 
-    @Override public void invitePlayer(PlayerInvitation playerInvitation) {
+    @Override public UUID invitePlayer(PlayerInvitation playerInvitation) {
 	UUID gameUuid = uuidProvider.getUUID();
 
 	Player starterPlayer = playerFactory.buildPlayer(playerInvitation.getFrom()).orElseThrow(() -> new RuntimeException("unknown start player|" + playerInvitation.getFrom()));
         Optional<Player> invitedPlayer = playerFactory.buildPlayer(playerInvitation.getTo());
         if (!invitedPlayer.isPresent()) {
             starterPlayer.endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
-            return;
+            return gameUuid;
 	}
 
 	Player _invitedPlayer = invitedPlayer.get();
@@ -34,6 +34,7 @@ public class GameTableImpl implements GameTable {
         games.startGame(game);
 
         _invitedPlayer.playTurn(move);
+        return gameUuid;
     }
 
     private int getAddedNumber(Move move) {

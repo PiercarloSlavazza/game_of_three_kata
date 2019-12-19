@@ -15,7 +15,7 @@ import java.util.Scanner;
     private final Scanner scanner;
     private final PrintStream printStream;
 
-    IOPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable, InputStream inputStream, PrintStream printStream) {
+    public IOPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable, InputStream inputStream, PrintStream printStream) {
 	this.playerIdentifier = playerIdentifier;
 	this.gameTable = gameTable;
 	this.scanner = new Scanner(inputStream);
@@ -30,7 +30,7 @@ import java.util.Scanner;
 	if (reply == 0) return Optional.of(Move.REPLY.ZERO);
 	if (reply == -1) return  Optional.of(Move.REPLY.MINUS_ONE);
 	if (reply == 1) return Optional.of(Move.REPLY.ONE);
-	throw new IllegalStateException("reply must be in [-1, 1] but is" + reply);
+	return Optional.empty();
     }
 
     private String formatWrongInputMessage(Optional<Integer> input) {
@@ -52,12 +52,14 @@ import java.util.Scanner;
 
 		int resultingNumber = (opponentNumber + reply) / 3;
 		Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedReply.get(), resultingNumber);
-		gameTable.acceptMove(replyMove);
 		printStream.println(String.format("Your move is: %d, %d. Waiting for your opponent...", reply, resultingNumber));
+
+		gameTable.acceptMove(replyMove);
 
 		break;
 	    } catch (InputMismatchException e) {
 		printStream.println(formatWrongInputMessage(Optional.empty()));
+		scanner.next();
 	    }
 	} while (true);
     }
@@ -65,7 +67,7 @@ import java.util.Scanner;
     private String formatEndGameOutcomeReason(boolean youWin, GameResult.GAME_OUTCOME_REASON gameOutcomeReason) {
 	switch (gameOutcomeReason) {
 	    case GOT_ONE:
-		return youWin ? "You got 1." : "You opponent got 1.";
+		return youWin ? "You got 1." : "Your opponent got 1.";
 	    case INVALID_MOVE:
 		return youWin ? "Your opponent did an invalid move" : "You did an invalid move";
 	    case UNKNOWN_PLAYER:

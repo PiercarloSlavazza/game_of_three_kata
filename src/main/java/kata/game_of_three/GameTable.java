@@ -1,8 +1,10 @@
 package kata.game_of_three;
 
+import java.util.UUID;
+
 public interface GameTable {
 
-    void invitePlayer(PlayerInvitation playerInvitation);
+    UUID invitePlayer(PlayerInvitation playerInvitation);
     void acceptMove(Move move);
 
 }
