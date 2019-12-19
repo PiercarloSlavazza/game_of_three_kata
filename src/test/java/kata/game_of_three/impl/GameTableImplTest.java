@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Optional;
 import java.util.UUID;
 
+import static kata.game_of_three.impl.GameOfThreeMockUtils.mockPlayer;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -23,15 +24,6 @@ import static org.mockito.Mockito.*;
 	playerFactory = mock(PlayerFactory.class);
 	uuidProvider = mock(UUIDProvider.class);
 	gameTable = new GameTableImpl(games, playerFactory, uuidProvider);
-    }
-
-    private static Player mockPlayer(String playerId) {
-	PlayerIdentifier playerIdentifier = mock(PlayerIdentifier.class);
-	when(playerIdentifier.getId()).thenReturn(playerId);
-
-	Player player = mock(Player.class);
-	when(player.getIdentifier()).thenReturn(playerIdentifier);
-	return player;
     }
 
     @Test
