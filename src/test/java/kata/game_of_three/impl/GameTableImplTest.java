@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
-public class GameTableImplTest {
+@SuppressWarnings("Duplicates") public class GameTableImplTest {
 
     private Games games;
     private GameTableImpl gameTable;
@@ -21,14 +21,14 @@ public class GameTableImplTest {
 
     private static Player mockPlayer(String playerId) {
 	PlayerIdentifier playerIdentifier = mock(PlayerIdentifier.class);
-	when(playerIdentifier.getIdentifier()).thenReturn("player");
+	when(playerIdentifier.getIdentifier()).thenReturn(playerId);
 
 	Player player = mock(Player.class);
 	when(player.getIdentifier()).thenReturn(playerIdentifier);
 	return player;
     }
 
-    @SuppressWarnings("Duplicates") @Test
+    @Test
     public void shouldAcceptValidMove() {
 
 	Player player1 = mockPlayer("player1");
@@ -47,7 +47,7 @@ public class GameTableImplTest {
     }
 
     @Test
-    public void shouldNotdAcceptNumberNotDivisibleByThree() {
+    public void shouldNotAcceptNumberNotDivisibleByThree() {
 
 	Player player1 = mockPlayer("player1");
 	Player player2 = mockPlayer("player2");
@@ -59,6 +59,82 @@ public class GameTableImplTest {
 	when(games.getGame(gameUuid)).thenReturn(game);
 
 	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 7);
+	gameTable.acceptMove(move);
+
+	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+    }
+
+    @Test
+    public void shouldNotAcceptNumberLowerThanThree() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 2);
+	gameTable.acceptMove(move);
+
+	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+    }
+
+    @Test
+    public void shouldNotAcceptZero() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 0);
+	gameTable.acceptMove(move);
+
+	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+    }
+
+    @Test
+    public void shouldNotAcceptNegativeNumbers() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, -1);
+	gameTable.acceptMove(move);
+
+	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+    }
+
+    @Test
+    public void shouldNotAcceptBadlyCalculatedNumbers() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(game);
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 15);
 	gameTable.acceptMove(move);
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
