@@ -15,7 +15,7 @@ import java.util.Scanner;
     private final Scanner scanner;
     private final PrintStream printStream;
 
-    public IOPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable, InputStream inputStream, PrintStream printStream) {
+    IOPlayer(PlayerIdentifier playerIdentifier, GameTable gameTable, InputStream inputStream, PrintStream printStream) {
 	this.playerIdentifier = playerIdentifier;
 	this.gameTable = gameTable;
 	this.scanner = new Scanner(inputStream);
@@ -40,7 +40,7 @@ import java.util.Scanner;
     @Override public void playTurn(Move opponentMove) {
 	Integer opponentNumber = opponentMove.getResultingNumber();
 	printStream.println("Opponent move: " + opponentNumber);
-	printStream.println("You reply [-1,0,1]:");
+	printStream.println("Your reply [-1,0,1]:");
 	do {
 	    try {
 		int reply = scanner.nextInt();
