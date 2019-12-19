@@ -22,14 +22,15 @@ public class AutonomousPlayersIntegrationTest {
 	InMemoryGames games = new InMemoryGames();
 	GameTableImpl gameTable = new GameTableImpl(games, registryPlayerFactory, UUID::randomUUID);
 	AutonomousPlayerEventsCollector autonomousPlayerEventsCollector = new AutonomousPlayerEventsCollector();
+	AutonomousPlayerEventsLogger autonomousPlayerEventsLogger = new AutonomousPlayerEventsLogger();
 
 	PlayerIdentifierImpl player1Identifier = new PlayerIdentifierImpl("P1");
 	PlayerIdentifierImpl player2Identifier = new PlayerIdentifierImpl("P2");
 
-	Player player1 = new AutonomousPlayer(player1Identifier, gameTable, autonomousPlayerEventsCollector);
+	Player player1 = new AutonomousPlayer(player1Identifier, gameTable, autonomousPlayerEventsCollector, autonomousPlayerEventsLogger);
 	registryPlayerFactory.addPlayer(player1);
 
-	Player player2 = new AutonomousPlayer(player2Identifier, gameTable, autonomousPlayerEventsCollector);
+	Player player2 = new AutonomousPlayer(player2Identifier, gameTable, autonomousPlayerEventsCollector, autonomousPlayerEventsLogger);
 	registryPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
