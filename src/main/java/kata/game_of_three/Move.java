@@ -5,14 +5,6 @@ import java.util.UUID;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class Move {
 
-    public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, REPLY reply, Integer resultingNumber) {
-	this.gameUuid = gameUuid;
-	this.player = player;
-	this.opponent = opponent;
-	this.reply = reply;
-	this.resultingNumber = resultingNumber;
-    }
-
     public enum REPLY {
 	ZERO, ONE, MINUS_ONE
     }
@@ -22,6 +14,14 @@ import java.util.UUID;
     private final PlayerIdentifier opponent;
     private final REPLY reply;
     private final Integer resultingNumber;
+
+    public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, REPLY reply, Integer resultingNumber) {
+	this.gameUuid = gameUuid;
+	this.player = player;
+	this.opponent = opponent;
+	this.reply = reply;
+	this.resultingNumber = resultingNumber;
+    }
 
     public UUID getGameUuid() {
 	return gameUuid;
