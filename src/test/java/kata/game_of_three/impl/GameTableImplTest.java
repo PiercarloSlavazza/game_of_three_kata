@@ -31,6 +31,25 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
+    public void shouldEndGame() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	UUID gameUuid = UUID.randomUUID();
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+
+	Game game = new Game(gameUuid, player1, player2, lastMove);
+	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
+
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 3);
+	gameTable.acceptMove(move);
+
+	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+    }
+
+    @Test
     public void shouldAcceptValidPlusOne() {
 
 	Player player1 = mockPlayer("player1");
@@ -55,12 +74,12 @@ import static org.mockito.Mockito.*;
 	Player player2 = mockPlayer("player2");
 
 	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 9);
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 15);
 
 	Game game = new Game(gameUuid, player1, player2, lastMove);
 	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
 
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ZERO, 3);
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ZERO, 5);
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
@@ -73,12 +92,12 @@ import static org.mockito.Mockito.*;
 	Player player2 = mockPlayer("player2");
 
 	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 10);
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 16);
 
 	Game game = new Game(gameUuid, player1, player2, lastMove);
 	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
 
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.MINUS_ONE, 3);
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.MINUS_ONE, 5);
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);

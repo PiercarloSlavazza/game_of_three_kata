@@ -44,6 +44,12 @@ public class GameTableImpl implements GameTable {
 	    return;
 	}
 
+	if (move.getResultingNumber() == 3) {
+	    player.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    opponent.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    return;
+	}
+
 	opponent.playTurn(move);
     }
 
