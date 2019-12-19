@@ -39,8 +39,10 @@ import java.util.Scanner;
 
     @Override public void playTurn(Move opponentMove) {
 	Integer opponentNumber = opponentMove.getResultingNumber();
-	printStream.println("Opponent move: " + opponentNumber);
-	printStream.println("Your reply [-1,0,1]:");
+	printStream.println(String.format("[%s] Opponent move: %d",
+					  opponentMove.getPlayer().getId(),
+					  opponentNumber));
+	printStream.println(String.format("[%s] Your reply [-1,0,1]:", playerIdentifier.getId()));
 	do {
 	    try {
 		int reply = scanner.nextInt();
@@ -69,7 +71,7 @@ import java.util.Scanner;
 	    case GOT_ONE:
 		return youWin ? "You got 1." : "Your opponent got 1.";
 	    case INVALID_MOVE:
-		return youWin ? "Your opponent did an invalid move" : "You did an invalid move";
+		return youWin ? "Your opponent did an invalid move" : "You did an invalid move.";
 	    case UNKNOWN_PLAYER:
 		return "Your opponent replied to an unknown player.";
 	    default:
@@ -79,7 +81,7 @@ import java.util.Scanner;
 
     @Override public void endGame(GameResult gameResult) {
 	boolean youWin = gameResult.getGameOutcome().equals(GameResult.GAME_OUTCOME.YOU_WIN);
-	String endGameMessage = "You " + (youWin ? "WIN!" : "lose.") + "\n" + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
+	String endGameMessage = "[" + playerIdentifier.getId() + "] You " + (youWin ? "WIN!" : "lose.") + " " + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
 	printStream.println(endGameMessage);
     }
 }
