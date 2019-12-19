@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -47,6 +48,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test
@@ -65,6 +67,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -83,6 +86,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -101,6 +105,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -120,6 +125,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test
@@ -139,6 +145,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test
@@ -158,6 +165,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test
@@ -177,6 +185,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test
@@ -218,6 +227,7 @@ import static org.mockito.Mockito.*;
 
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	verify(games, times(1)).endGame(gameUuid);
     }
 }
 

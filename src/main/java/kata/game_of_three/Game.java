@@ -9,7 +9,7 @@ public class Game {
     private final UUID gameUuid;
     private final Player player1;
     private final Player player2;
-    private final Move lastMove;
+    private Move lastMove;
 
     public Game(UUID gameUuid, Player player1, Player player2, Move lastMove) {
 	this.gameUuid = gameUuid;
@@ -41,6 +41,10 @@ public class Game {
 
     public UUID getGameUuid() {
 	return gameUuid;
+    }
+
+    public void setLastMove(Move lastMove) {
+	this.lastMove = lastMove;
     }
 
     public Move getLastMove() {
