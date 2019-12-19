@@ -37,12 +37,12 @@ import static org.mockito.Mockito.*;
 	Player player2 = mockPlayer("player2");
 
 	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 14);
 
 	Game game = new Game(gameUuid, player1, player2, lastMove);
 	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
 
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 3);
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 5);
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
