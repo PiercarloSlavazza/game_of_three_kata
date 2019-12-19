@@ -23,15 +23,13 @@ public class AutonomousPlayersIntegrationTest {
 	GameTableImpl gameTable = new GameTableImpl(games, registryPlayerFactory, UUID::randomUUID);
 	AutonomousPlayerEventsCollector autonomousPlayerEventsCollector = new AutonomousPlayerEventsCollector();
 
-	LocalAutonomousPlayerFactory localAutonomousPlayerFactory = new LocalAutonomousPlayerFactory(gameTable, autonomousPlayerEventsCollector);
-
 	PlayerIdentifierImpl player1Identifier = new PlayerIdentifierImpl("P1");
 	PlayerIdentifierImpl player2Identifier = new PlayerIdentifierImpl("P2");
 
-	Player player1 = localAutonomousPlayerFactory.buildPlayer(player1Identifier).orElseThrow(RuntimeException::new);
+	Player player1 = new AutonomousPlayer(player1Identifier, gameTable, autonomousPlayerEventsCollector);
 	registryPlayerFactory.addPlayer(player1);
 
-	Player player2 = localAutonomousPlayerFactory.buildPlayer(player2Identifier).orElseThrow(RuntimeException::new);
+	Player player2 = new AutonomousPlayer(player2Identifier, gameTable, autonomousPlayerEventsCollector);
 	registryPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
