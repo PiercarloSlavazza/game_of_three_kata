@@ -39,10 +39,10 @@ import java.util.Scanner;
 
     @Override public void playTurn(Move opponentMove) {
 	Integer opponentNumber = opponentMove.getResultingNumber();
-	printStream.println(String.format("[%s] Opponent move: %d",
-					  opponentMove.getPlayer().getId(),
+	printStream.println(String.format("%s > Opponent move: %d",
+					  playerIdentifier.getId(),
 					  opponentNumber));
-	printStream.println(String.format("[%s] Your reply [-1,0,1]:", playerIdentifier.getId()));
+	printStream.println(String.format("%s > Your reply [-1,0,1]:", playerIdentifier.getId()));
 	do {
 	    try {
 		int reply = scanner.nextInt();
@@ -81,7 +81,7 @@ import java.util.Scanner;
 
     @Override public void endGame(GameResult gameResult) {
 	boolean youWin = gameResult.getGameOutcome().equals(GameResult.GAME_OUTCOME.YOU_WIN);
-	String endGameMessage = "[" + playerIdentifier.getId() + "] You " + (youWin ? "WIN!" : "lose.") + " " + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
+	String endGameMessage = playerIdentifier.getId() + " > You " + (youWin ? "WIN!" : "lose.") + " " + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
 	printStream.println(endGameMessage);
     }
 }
