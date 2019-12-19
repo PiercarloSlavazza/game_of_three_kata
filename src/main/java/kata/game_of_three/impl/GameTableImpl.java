@@ -29,10 +29,10 @@ public class GameTableImpl implements GameTable {
 
 	Player _invitedPlayer = invitedPlayer.get();
 
-	Game game = new Game(gameUuid, starterPlayer, _invitedPlayer);
+	Move move = new Move(gameUuid, starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), playerInvitation.getGameInception());
+	Game game = new Game(gameUuid, starterPlayer, _invitedPlayer, move);
         games.startGame(game);
 
-        Move move = new Move(game.getGameUuid(), starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), playerInvitation.getGameInception());
         _invitedPlayer.playTurn(move);
     }
 
@@ -99,9 +99,6 @@ public class GameTableImpl implements GameTable {
 	    return;
 	}
 
-	opponent.ifPresent(_opponent -> {
-	    Move lastMove = _game.getLastMove().orElseThrow(() -> new IllegalStateException("game does not have a last move"));
-	    acceptMove(player, _opponent, move, lastMove, _game);
-	});
+	opponent.ifPresent(_opponent -> acceptMove(player, _opponent, move, _game.getLastMove(), _game));
     }
 }

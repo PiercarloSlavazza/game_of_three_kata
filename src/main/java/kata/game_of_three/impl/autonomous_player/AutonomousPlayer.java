@@ -43,8 +43,8 @@ public class AutonomousPlayer implements Player {
 	Move.REPLY normalizedReply = normalizeReply(reply);
 
 	Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedReply, resultingNumber);
-	gameTable.acceptMove(replyMove);
 	playerEventsListeners.forEach(listener -> listener.onPlayTurn(replyMove, opponentMove));
+	gameTable.acceptMove(replyMove);
     }
 
     @Override public void endGame(GameResult gameResult) {

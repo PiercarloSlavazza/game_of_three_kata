@@ -62,8 +62,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertTrue(game.getLastMove().isPresent());
-	assertEquals(game.getLastMove().get(), move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -82,8 +81,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertTrue(game.getLastMove().isPresent());
-	assertEquals(game.getLastMove().get(), move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -102,8 +100,7 @@ import static org.mockito.Mockito.*;
 	gameTable.acceptMove(move);
 
 	verify(player1, times(1)).playTurn(move);
-	assertTrue(game.getLastMove().isPresent());
-	assertEquals(game.getLastMove().get(), move);
+	assertEquals(game.getLastMove(), move);
     }
 
     @Test
@@ -242,8 +239,8 @@ import static org.mockito.Mockito.*;
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
 	gameTable.invitePlayer(playerInvitation);
 
-	Game expectedGame = new Game(gameUuid, player1, player2);
 	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
+	Game expectedGame = new Game(gameUuid, player1, player2, expectedMove);
 	verify(games, times(1)).startGame(expectedGame);
 	verify(player2, times(1)).playTurn(expectedMove);
     }
@@ -262,8 +259,8 @@ import static org.mockito.Mockito.*;
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
 	gameTable.invitePlayer(playerInvitation);
 
-	Game expectedGame = new Game(gameUuid, player1, player2);
 	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
+	Game expectedGame = new Game(gameUuid, player1, player2, expectedMove);
 	verify(player1, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
 	verify(games, times(0)).startGame(expectedGame);
 	verify(player2, times(0)).playTurn(expectedMove);
