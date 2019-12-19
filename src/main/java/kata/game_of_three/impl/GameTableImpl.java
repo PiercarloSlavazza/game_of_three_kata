@@ -53,20 +53,25 @@ public class GameTableImpl implements GameTable {
     }
 
     @Override public void acceptMove(Move move) {
-	Game game = games.getGame(move.getGameUuid());
-	Player player = game.getPlayerById(move.getPlayer()).
-			orElseThrow(() -> new RuntimeException(String.format("unknown player|%s|in game|%s|with players|player1|%s|player 2|%s",
-									     move.getPlayer().getIdentifier(),
-									     game.getGameUuid(),
-									     game.getPlayer1().getIdentifier(),
-									     game.getPlayer2().getIdentifier())));
+	Optional<Game> game = games.getGame(move.getGameUuid());
+	if (!game.isPresent()) throw new RuntimeException("unknown game|" + move.getGameUuid());
 
-	Optional<Player> opponent = game.getPlayerById(move.getOpponent());
+	Game _game = game.get();
+	Player player = _game.getPlayerById(move.getPlayer()).
+			orElseThrow(() -> new RuntimeException(String.format("unknown player|%s|in game|%s|with players|player1|%s|player 2|%s",
+									     move.getPlayer().getId(),
+									     _game.getGameUuid(),
+									     _game.getPlayer1().getIdentifier(),
+									     _game.getPlayer2().getIdentifier())));
+
+	Optional<Player> opponent = _game.getPlayerById(move.getOpponent());
 	if (!opponent.isPresent()) {
 	    player.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
+	    Player actualOpponent = _game.getOpponent(player.getIdentifier());
+	    actualOpponent.endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	    return;
 	}
 
-	opponent.ifPresent(_opponent -> acceptMove(player, _opponent, move, game.getLastMove()));
+	opponent.ifPresent(_opponent -> acceptMove(player, _opponent, move, _game.getLastMove()));
     }
 }

@@ -32,6 +32,13 @@ public class Game {
 	return player2;
     }
 
+    public Player getOpponent(PlayerIdentifier playerIdentifier) {
+        if (player1.getIdentifier().getId().equals(playerIdentifier.getId())) return player2;
+        if (player2.getIdentifier().getId().equals(playerIdentifier.getId())) return player1;
+
+        throw new RuntimeException("unknown player identifier|" + playerIdentifier);
+    }
+
     public UUID getGameUuid() {
 	return gameUuid;
     }
