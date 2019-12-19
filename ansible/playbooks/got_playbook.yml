@@ -1,0 +1,36 @@
+---
+- hosts: got_servers
+  become: yes
+  become_method: sudo
+  become_flags: "-E"
+
+  tasks:
+  - include: common_tasks.yml
+    tags: common
+
+  - name: add rabbitmq official apt repository
+    apt_repository: repo='deb http://www.rabbitmq.com/debian/ testing main' state=present
+
+  - name: install package
+    apt: 
+      name: rabbitmq-server
+      allow_unauthenticated: yes
+      state: present
+
+  - name: Create Game Of Three conf folder
+    file:
+      path: /usr/game-of-three/conf
+      state: directory
+    tags: deploy
+
+  - name: Copy env.sh file to Game Of Three conf folder
+    copy: 
+      #ORTOMOVE src: /kie-playbooks/playbooks/files/hosts/{{inventory_hostname}}/blitz_env.sh
+      src: ./game-of-three/{{inventory_hostname}}_env.sh
+      dest: /usr/game-of-three/conf/env.sh
+      backup: yes
+    tags: deploy
+
+  - name: dos2unix env.sh
+    command: dos2unix /usr/game-of-three/conf/env.sh
+    tags: deploy

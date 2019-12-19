@@ -1,0 +1,54 @@
+swagger:
+  resourcePackage: kata.game_of_three.rest_api.server
+
+rabbitMQHost: ${RABBITMQ_HOST:-127.0.0.1}
+rabbitMQPort: ${RABBITMQ_PORT:-5672}
+
+server:
+  requestLog:
+    appenders: []
+  rootPath: '/game_of_three_rest_api/*'
+  applicationContextPath: ${APPLICATION_CONTEXT_PATH:-/}
+  applicationConnectors:
+  - type: http
+    port: ${SERVER_APP_HTTP_PORT:-8700}
+  adminConnectors:
+  - type: http
+    port: ${SERVER_ADMIN_HTTP_PORT:-8701}
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    # ====> Needed to be set to DEBUG when you get HTTP code 400 errors
+    io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper: ${JSON_PARSING_LOG_LEVEL:-ERROR}
+    io.dropwizard.server.DefaultServerFactory: ERROR
+
+    io.netty: ERROR
+    org.apache: ERROR
+    org.eclipse.jetty.server.handler: ERROR
+    org.eclipse.jetty.setuid: ERROR
+    org.eclipse.jetty.util.log: ERROR
+    org.jboss: ERROR
+    org.reflections.Reflections: ERROR
+    org.spark-project: ERROR
+
+# Logback's Time Based Rolling Policy - archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}.log.gz
+# Logback's Size and Time Based Rolling Policy -  archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}-%i.log.gz
+# Logback's Fixed Window Rolling Policy -  archivedLogFilenamePattern: /tmp/application-%i.log.gz
+
+  appenders:
+    - type: console
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%d{dd MMM - HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: /var/log/game-of-three-server/application.log
+      archivedLogFilenamePattern: /var/log/game-of-three-server/application-%d{yyyy-MM-dd}-%i.log.gz
+      archivedFileCount: 7
+      timeZone: UTC
+      maxFileSize: 10MB

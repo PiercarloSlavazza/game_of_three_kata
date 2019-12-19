@@ -1,0 +1,8 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: low
+Architecture: all
+Description: Game Of Three Server
+Maintainer: Piercarlo Slavazza <piercarlo.slavazza@gmail.com>
+Depends: default-jre | openjdk-8-jdk

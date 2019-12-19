@@ -1,0 +1,82 @@
+---
+# BEWARE - should be included - cannot runstandalone
+
+- name: Install dos2unix
+  apt:
+    name: dos2unix
+    state: present
+
+- block:
+  - name: copy aliases
+    copy: 
+      src: aliases.rc
+      dest: /root
+  - name: dos2unix aliases.rc
+    command: dos2unix /root/aliases.rc
+  - name: Run aliases from .bashrc
+    lineinfile:
+      path: /root/.bashrc
+      line: "source /root/aliases.rc"
+  tags: bash_aliases
+
+- name: Install Emacs
+  apt:
+    name: emacs24-nox
+    state: present
+
+- name: Install htop
+  apt:
+    name: htop
+    state: present
+
+- name: Install Openjdk
+  apt:
+    name: openjdk-8-jdk
+    state: present
+
+- name: Create legacy JDK Bin Folder
+  file:
+    path: /opt/jdk1.8.0_73/bin/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create legacy java exec symlink
+  file:
+    src: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+    dest: /opt/jdk1.8.0_73/bin/java
+    owner: root
+    group: root
+    state: link
+
+- name: Install git
+  apt:
+    name: git
+    state: present
+    
+- block:
+  - name: SSH - disable host key checking
+    lineinfile:
+      path: /etc/ssh/ssh_config
+      regexp: "^#.*StrictHostKeyChecking.*"
+      line: " StrictHostKeyChecking no"
+
+  - name: SSH - setting UserKnownHostsFile to null
+    lineinfile:
+      path: /etc/ssh/ssh_config
+      regexp: "^#.*UserKnownHostsFile.*"
+      line: " UserKnownHostsFile=/dev/null"
+
+- block:
+  - name: Set machine hostname to {{inventory_hostname}}
+    hostname:
+      name: "{{inventory_hostname}}"
+  - name: Adding hostname {{inventory_hostname}} to /etc/hosts
+    lineinfile:
+      path: /etc/hosts
+      regexp: '^127((?!localhost).)*$'
+      line: "127.0.0.1 {{inventory_hostname}}"
+      state: present
+  tags: hostname
+  when: update_hostname is defined and update_hostname|bool == true

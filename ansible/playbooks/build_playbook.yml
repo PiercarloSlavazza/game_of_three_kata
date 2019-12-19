@@ -1,0 +1,14 @@
+---
+- hosts: build_servers
+  become: yes
+  become_method: sudo
+  become_flags: "-E"
+
+  tasks:
+  - include: common_tasks.yml
+    tags: common
+  
+  - name: Install Maven
+    apt:
+      name: maven
+      state: present
