@@ -2,8 +2,10 @@ package kata.game_of_three.shell;
 
 import kata.game_of_three.Player;
 import kata.game_of_three.PlayerInvitation;
-import kata.game_of_three.impl.*;
-import kata.game_of_three.impl.autonomous_player.AutonomousPlayerEventsLogger;
+import kata.game_of_three.impl.CachedPlayerFactory;
+import kata.game_of_three.impl.GameTableImpl;
+import kata.game_of_three.impl.InMemoryGames;
+import kata.game_of_three.impl.PlayerIdentifierImpl;
 import kata.game_of_three.impl.io_player.IOPlayer;
 
 import java.util.UUID;
