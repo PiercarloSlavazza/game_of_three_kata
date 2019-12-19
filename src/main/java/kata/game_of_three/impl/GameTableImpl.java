@@ -57,7 +57,7 @@ public class GameTableImpl implements GameTable {
 	if (moveNumber < 1) return false;
 
 	int addedNumber = getAddedNumber(move);
-	return ((lastMove.getResultingNumber() + addedNumber) / 3) == moveNumber;
+	return ((double)(lastMove.getResultingNumber() + addedNumber) / 3f) == moveNumber;
     }
 
     private void acceptMove(Player player, Player opponent, Move move, Move lastMove, Game game) {
