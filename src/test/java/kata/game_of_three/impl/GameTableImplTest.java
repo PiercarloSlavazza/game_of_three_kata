@@ -20,7 +20,7 @@ public class GameTableImplTest {
     }
 
     @Test
-    public void shouldAcceptValidFirstMove() {
+    public void shouldAcceptValidMove() {
 
 	PlayerIdentifier playerId = mock(PlayerIdentifier.class);
 	when(playerId.getIdentifier()).thenReturn("player");
