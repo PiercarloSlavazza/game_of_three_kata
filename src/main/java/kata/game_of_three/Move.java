@@ -1,11 +1,11 @@
 package kata.game_of_three;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
-public class Move {
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class Move {
 
-    private final UUID gameUuid;
     private final UUID moveUuid;
     private final UUID uuidOfPreviousMove;
     private final PlayerIdentifier player;
@@ -13,27 +13,21 @@ public class Move {
     private final Integer added;
     private final Integer resultingNumber;
 
-    public Move(UUID gameUuid, UUID moveUuid, UUID uuidOfPreviousMove, PlayerIdentifier player, PlayerIdentifier opponent, Integer added,
-		Integer resultingNumber) {
-	this.gameUuid = gameUuid;
+    public Move(UUID moveUuid, Optional<UUID> uuidOfPreviousMove, PlayerIdentifier player, PlayerIdentifier opponent, Integer added, Integer resultingNumber) {
 	this.moveUuid = moveUuid;
-	this.uuidOfPreviousMove = uuidOfPreviousMove;
+	this.uuidOfPreviousMove = uuidOfPreviousMove.orElse(null);
 	this.player = player;
 	this.opponent = opponent;
 	this.added = added;
 	this.resultingNumber = resultingNumber;
     }
 
-    public UUID getGameUuid() {
-	return gameUuid;
-    }
-
     public UUID getMoveUuid() {
 	return moveUuid;
     }
 
-    public UUID getUuidOfPreviousMove() {
-	return uuidOfPreviousMove;
+    public Optional<UUID> getUuidOfPreviousMove() {
+	return Optional.ofNullable(uuidOfPreviousMove);
     }
 
     public PlayerIdentifier getPlayer() {
@@ -54,8 +48,7 @@ public class Move {
 
     @Override public String toString() {
 	return "Move{" +
-			"gameUuid=" + gameUuid +
-			", moveUuid=" + moveUuid +
+			"moveUuid=" + moveUuid +
 			", uuidOfPreviousMove=" + uuidOfPreviousMove +
 			", player=" + player +
 			", opponent=" + opponent +
@@ -70,8 +63,7 @@ public class Move {
 	if (!(o instanceof Move))
 	    return false;
 	Move move = (Move) o;
-	return Objects.equals(gameUuid, move.gameUuid) &&
-			Objects.equals(moveUuid, move.moveUuid) &&
+	return Objects.equals(moveUuid, move.moveUuid) &&
 			Objects.equals(uuidOfPreviousMove, move.uuidOfPreviousMove) &&
 			Objects.equals(player, move.player) &&
 			Objects.equals(opponent, move.opponent) &&
@@ -80,6 +72,6 @@ public class Move {
     }
 
     @Override public int hashCode() {
-	return Objects.hash(gameUuid, moveUuid, uuidOfPreviousMove, player, opponent, added, resultingNumber);
+	return Objects.hash(moveUuid, uuidOfPreviousMove, player, opponent, added, resultingNumber);
     }
 }
