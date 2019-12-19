@@ -1,6 +1,7 @@
 package kata.game_of_three;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class Move {
@@ -15,11 +16,19 @@ import java.util.UUID;
     private final REPLY reply;
     private final Integer resultingNumber;
 
+    public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, Integer resultingNumber) {
+        this(gameUuid, player, opponent, Optional.empty(), resultingNumber);
+    }
+
     public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, REPLY reply, Integer resultingNumber) {
+        this(gameUuid, player, opponent, Optional.of(reply), resultingNumber);
+    }
+
+    private Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, Optional<REPLY> reply, Integer resultingNumber) {
 	this.gameUuid = gameUuid;
 	this.player = player;
 	this.opponent = opponent;
-	this.reply = reply;
+	this.reply = reply.orElse(null);
 	this.resultingNumber = resultingNumber;
     }
 
@@ -35,8 +44,8 @@ import java.util.UUID;
 	return opponent;
     }
 
-    public REPLY getReply() {
-	return reply;
+    public Optional<REPLY> getReply() {
+	return Optional.ofNullable(reply);
     }
 
     public Integer getResultingNumber() {

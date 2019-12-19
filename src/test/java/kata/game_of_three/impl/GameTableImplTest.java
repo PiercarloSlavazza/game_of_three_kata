@@ -251,7 +251,7 @@ import static org.mockito.Mockito.*;
 	gameTable.invitePlayer(playerInvitation);
 
 	Game expectedGame = new Game(gameUuid, player1, player2);
-	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, playerInvitation.getGameInception());
+	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
 	verify(games, times(1)).startGame(expectedGame);
 	verify(player2, times(1)).playTurn(expectedMove);
     }

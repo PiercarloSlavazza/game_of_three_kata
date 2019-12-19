@@ -28,21 +28,23 @@ public class GameTableImpl implements GameTable {
         Game game = new Game(uuidProvider.getUUID(), starterPlayer, _invitedPlayer);
         games.startGame(game);
 
-        Move move = new Move(game.getGameUuid(), starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), Move.REPLY.ZERO, playerInvitation.getGameInception());
+        Move move = new Move(game.getGameUuid(), starterPlayer.getIdentifier(), _invitedPlayer.getIdentifier(), playerInvitation.getGameInception());
         _invitedPlayer.playTurn(move);
     }
 
     private int getAddedNumber(Move move) {
-	switch (move.getReply()) {
-	    case ZERO:
-		return 0;
-	    case ONE:
-		return 1;
-	    case MINUS_ONE:
-		return -1;
-	    default:
-		throw new RuntimeException("unknown reply|" + move.getReply());
-	}
+        return move.getReply().map(reply -> {
+	    switch (reply) {
+		case ZERO:
+		    return 0;
+		case ONE:
+		    return 1;
+		case MINUS_ONE:
+		    return -1;
+		default:
+		    throw new RuntimeException("unknown reply|" + move.getReply());
+	    }
+	}).orElseThrow(() -> new IllegalStateException("reply is missing from move|" + move));
     }
 
     private boolean isValidNumber(Move move, Move lastMove) {
