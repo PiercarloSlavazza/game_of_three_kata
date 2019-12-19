@@ -75,8 +75,8 @@ public class GameTableImpl implements GameTable {
 	}
 
 	if (move.getResultingNumber() == 1) {
-	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
-	    opponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
+	    opponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
 	    games.endGame(move.getGameUuid());
 	    return;
 	}

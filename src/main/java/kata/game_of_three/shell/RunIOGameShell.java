@@ -27,7 +27,7 @@ public class RunIOGameShell {
 	Player player2 = new IOPlayer(player2Identifier, gameTable, System.in, System.out);
 	registryPlayerFactory.addPlayer(player2);
 
-	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 25);
+	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
 	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
     }
 
