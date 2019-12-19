@@ -33,12 +33,12 @@ import static org.mockito.Mockito.*;
 	Player player2 = mockPlayer("player2");
 
 	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
+	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 3);
 
 	Game game = new Game(gameUuid, player1, player2, lastMove);
 	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
 
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 3);
+	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ZERO, 1);
 	gameTable.acceptMove(move);
 
 	verify(player2, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
@@ -101,26 +101,6 @@ import static org.mockito.Mockito.*;
 
 	verify(player1, times(1)).playTurn(move);
 	assertEquals(game.getLastMove(), move);
-    }
-
-    @Test
-    public void shouldNotAcceptNumberLowerThanThree() {
-
-	Player player1 = mockPlayer("player1");
-	Player player2 = mockPlayer("player2");
-
-	UUID gameUuid = UUID.randomUUID();
-	Move lastMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), Move.REPLY.ZERO, 8);
-
-	Game game = new Game(gameUuid, player1, player2, lastMove);
-	when(games.getGame(gameUuid)).thenReturn(Optional.of(game));
-
-	Move move = new Move(gameUuid, player2.getIdentifier(), player1.getIdentifier(), Move.REPLY.ONE, 2);
-	gameTable.acceptMove(move);
-
-	verify(player2, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
-	verify(player1, times(1)).endGame(new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
-	verify(games, times(1)).endGame(gameUuid);
     }
 
     @Test

@@ -53,7 +53,7 @@ public class GameTableImpl implements GameTable {
 
     private boolean isValidNumber(Move move, Move lastMove) {
 	Integer moveNumber = move.getResultingNumber();
-	if (moveNumber < 3) return false;
+	if (moveNumber < 1) return false;
 
 	int addedNumber = getAddedNumber(move);
 	return ((lastMove.getResultingNumber() + addedNumber) / 3) == moveNumber;
@@ -67,15 +67,15 @@ public class GameTableImpl implements GameTable {
 	    return;
 	}
 
-	if (move.getResultingNumber() == 3) {
+	if (move.getResultingNumber() == 1) {
 	    player.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
 	    opponent.endGame(new GameResult(move.getGameUuid(), GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE));
 	    games.endGame(move.getGameUuid());
 	    return;
 	}
 
-	opponent.playTurn(move);
 	game.setLastMove(move);
+	opponent.playTurn(move);
     }
 
     @Override public void acceptMove(Move move) {
