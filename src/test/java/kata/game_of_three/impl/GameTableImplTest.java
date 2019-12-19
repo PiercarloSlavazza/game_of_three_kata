@@ -15,11 +15,13 @@ import static org.mockito.Mockito.*;
 
     private Games games;
     private GameTableImpl gameTable;
+    private PlayerFactory playerFactory;
 
     @Before
     public void setUp() {
 	games = mock(Games.class);
-	gameTable = new GameTableImpl(games);
+	playerFactory = mock(PlayerFactory.class);
+	gameTable = new GameTableImpl(games, playerFactory);
     }
 
     private static Player mockPlayer(String playerId) {
@@ -228,6 +230,18 @@ import static org.mockito.Mockito.*;
 	verify(player2, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.INVALID_MOVE));
 	verify(games, times(1)).endGame(gameUuid);
+    }
+
+    @Test
+    public void shouldStartGameOnInvitation() {
+
+	Player player1 = mockPlayer("player1");
+	Player player2 = mockPlayer("player2");
+
+	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
+	gameTable.invitePlayer(playerInvitation);
+
+
     }
 }
 

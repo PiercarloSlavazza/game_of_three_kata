@@ -7,9 +7,11 @@ import java.util.Optional;
 public class GameTableImpl implements GameTable {
 
     private final Games games;
+    private final PlayerFactory playerFactory;
 
-    public GameTableImpl(Games games) {
+    GameTableImpl(Games games, PlayerFactory playerFactory) {
 	this.games = games;
+	this.playerFactory = playerFactory;
     }
 
     @Override public void invitePlayer(PlayerInvitation playerInvitation) {
