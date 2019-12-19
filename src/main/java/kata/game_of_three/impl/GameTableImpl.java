@@ -10,7 +10,7 @@ public class GameTableImpl implements GameTable {
     private final PlayerFactory playerFactory;
     private final UUIDProvider uuidProvider;
 
-    GameTableImpl(Games games, PlayerFactory playerFactory, UUIDProvider uuidProvider) {
+    public GameTableImpl(Games games, PlayerFactory playerFactory, UUIDProvider uuidProvider) {
 	this.games = games;
 	this.playerFactory = playerFactory;
 	this.uuidProvider = uuidProvider;

@@ -19,11 +19,11 @@ import javax.ws.rs.core.Response;
 				title = "Game Of Three Game Table API"
 		)
 )
-public class GateTableResource {
+public class GameTableResource {
 
     private final GameTable gameTable;
 
-    public GateTableResource(GameTable gameTable) {
+    GameTableResource(GameTable gameTable) {
 	this.gameTable = gameTable;
     }
 
