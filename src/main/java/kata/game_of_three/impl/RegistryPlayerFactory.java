@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class CachedPlayerFactory implements PlayerFactory {
+public class RegistryPlayerFactory implements PlayerFactory {
 
     private final Map<PlayerIdentifier, Player> playersByIdentifier = new HashMap<>();
 

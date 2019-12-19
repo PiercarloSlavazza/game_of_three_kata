@@ -11,9 +11,9 @@ public class RunAutonomousGameShell {
 
     public static void main(String[] args) {
 
-	CachedPlayerFactory cachedPlayerFactory = new CachedPlayerFactory();
+	RegistryPlayerFactory registryPlayerFactory = new RegistryPlayerFactory();
 	InMemoryGames games = new InMemoryGames();
-	GameTableImpl gameTable = new GameTableImpl(games, cachedPlayerFactory, UUID::randomUUID);
+	GameTableImpl gameTable = new GameTableImpl(games, registryPlayerFactory, UUID::randomUUID);
 	AutonomousPlayerEventsLogger autonomousPlayerEventsLogger = new AutonomousPlayerEventsLogger();
 
 	LocalAutonomousPlayerFactory localAutonomousPlayerFactory = new LocalAutonomousPlayerFactory(gameTable, autonomousPlayerEventsLogger);
@@ -22,10 +22,10 @@ public class RunAutonomousGameShell {
 	PlayerIdentifierImpl player2Identifier = new PlayerIdentifierImpl("P2");
 
 	Player player1 = localAutonomousPlayerFactory.buildPlayer(player1Identifier).orElseThrow(RuntimeException::new);
-	cachedPlayerFactory.addPlayer(player1);
+	registryPlayerFactory.addPlayer(player1);
 
 	Player player2 = localAutonomousPlayerFactory.buildPlayer(player2Identifier).orElseThrow(RuntimeException::new);
-	cachedPlayerFactory.addPlayer(player2);
+	registryPlayerFactory.addPlayer(player2);
 
 	PlayerInvitation playerInvitation = new PlayerInvitation(player1Identifier, player2Identifier, 56);
 	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
