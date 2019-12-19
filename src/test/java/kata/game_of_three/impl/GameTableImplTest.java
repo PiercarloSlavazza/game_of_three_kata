@@ -255,5 +255,26 @@ import static org.mockito.Mockito.*;
 	verify(games, times(1)).startGame(expectedGame);
 	verify(player2, times(1)).playTurn(expectedMove);
     }
+
+    @Test
+    public void shouldNotStartGameWhenUnknownInvited() {
+
+	Player player1 = mockPlayer("player1");
+	when(playerFactory.buildPlayer(player1.getIdentifier())).thenReturn(Optional.of(player1));
+	Player player2 = mockPlayer("player2");
+	when(playerFactory.buildPlayer(player2.getIdentifier())).thenReturn(Optional.empty());
+
+	UUID gameUuid = UUID.randomUUID();
+	when(uuidProvider.getUUID()).thenReturn(gameUuid);
+
+	PlayerInvitation playerInvitation = new PlayerInvitation(player1.getIdentifier(), player2.getIdentifier(), 56);
+	gameTable.invitePlayer(playerInvitation);
+
+	Game expectedGame = new Game(gameUuid, player1, player2);
+	Move expectedMove = new Move(gameUuid, player1.getIdentifier(), player2.getIdentifier(), playerInvitation.getGameInception());
+	verify(player1, times(1)).endGame(new GameResult(GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.UNKNOWN_PLAYER));
+	verify(games, times(0)).startGame(expectedGame);
+	verify(player2, times(0)).playTurn(expectedMove);
+    }
 }
 
