@@ -10,6 +10,7 @@ import kata.game_of_three.PlayerInvitation;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 @Api("/game_of_three/game_table")
 @Path("/game_of_three/game_table")
@@ -29,9 +30,8 @@ public class GameTableResource {
 
     @POST
     @Path("/player_invitation")
-    public Response invitePlayer(PlayerInvitation playerInvitation) {
-        gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
-        return Response.ok().build();
+    public UUID invitePlayer(PlayerInvitation playerInvitation) {
+        return gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
     }
 
     @POST

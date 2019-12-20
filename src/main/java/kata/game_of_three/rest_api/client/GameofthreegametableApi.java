@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import kata.game_of_three.Move;
 import kata.game_of_three.PlayerInvitation;
+import java.util.UUID;
 
 
 import java.lang.reflect.Type;
@@ -194,22 +195,25 @@ public class GameofthreegametableApi {
    * 
    * 
    * @param body  (optional)
+   * @return UUID
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public void invitePlayer(PlayerInvitation body) throws ApiException {
-    invitePlayerWithHttpInfo(body);
+  public UUID invitePlayer(PlayerInvitation body) throws ApiException {
+    ApiResponse<UUID> resp = invitePlayerWithHttpInfo(body);
+    return resp.getData();
   }
 
   /**
    * 
    * 
    * @param body  (optional)
-   * @return ApiResponse<Void>
+   * @return ApiResponse<UUID>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse<Void> invitePlayerWithHttpInfo(PlayerInvitation body) throws ApiException {
+  public ApiResponse<UUID> invitePlayerWithHttpInfo(PlayerInvitation body) throws ApiException {
     Call call = invitePlayerCall(body, null, null);
-    return apiClient.execute(call);
+    Type localVarReturnType = new TypeToken<UUID>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -220,7 +224,7 @@ public class GameofthreegametableApi {
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
-  public Call invitePlayerAsync(PlayerInvitation body, final ApiCallback<Void> callback) throws ApiException {
+  public Call invitePlayerAsync(PlayerInvitation body, final ApiCallback<UUID> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -242,7 +246,8 @@ public class GameofthreegametableApi {
     }
 
     Call call = invitePlayerCall(body, progressListener, progressRequestListener);
-    apiClient.executeAsync(call, callback);
+    Type localVarReturnType = new TypeToken<UUID>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   

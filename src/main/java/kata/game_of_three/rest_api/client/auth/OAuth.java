@@ -5,7 +5,7 @@ import kata.game_of_three.rest_api.client.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2019-12-20T10:25:38.213+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2019-12-20T10:36:16.813+01:00")
 public class OAuth implements Authentication {
   private String accessToken;
 
