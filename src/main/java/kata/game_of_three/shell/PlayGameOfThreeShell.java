@@ -108,7 +108,7 @@ public class PlayGameOfThreeShell {
 	    If player has been started without an opponent id, just do not close automatically the connections as the game ends
 	    because the player might be involved in some other games, or can be invited one more time.
 	     */
-	    boolean closeQueueConnectionOnEndGame = !config.isOpponentId();
+	    boolean closeQueueConnectionOnEndGame = config.isOpponentId();
 	    new QueueConsumerPlayer(player, closeQueueConnectionOnEndGame, connectionFactory);
 
 	    if (config.isOpponentId()) {
