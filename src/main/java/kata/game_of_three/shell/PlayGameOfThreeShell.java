@@ -30,6 +30,7 @@ interface PlayGameOfThreeShellConfig {
 
     @Option
     String getOpponentId();
+    boolean isOpponentId();
 
     @Option
     String getGameTableRestApiUrl();
@@ -88,14 +89,19 @@ public class PlayGameOfThreeShell {
 	connectionFactory.setHost(config.getRabbitMQHost());
 
 	PlayerIdentifier playerIdentifier = new PlayerIdentifier(config.getPlayerId());
-	PlayerIdentifier opponentIdentifier = new PlayerIdentifier(config.getOpponentId());
 
 	Player player = buildPlayer(config.isAutoPlay() ? config.getAutoPlay() : false, playerIdentifier, gameTable);
 	new QueueConsumerPlayer(player, connectionFactory);
 
-	int inception = config.isInception() ? config.getInception() : new Random().nextInt();
-	PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
-	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
+	if (config.isOpponentId()) {
+	    PlayerIdentifier opponentIdentifier = new PlayerIdentifier(config.getOpponentId());
+	    int inception = config.isInception() ? config.getInception() : new Random().nextInt();
+	    PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
+	    System.out.println(player.getIdentifier().getId() + " > starting game against [" + opponentIdentifier.getId() + "] with inception " + inception);
+	    gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
+	} else {
+	    System.out.println(player.getIdentifier().getId() + " > waiting to be invited to a game...");
+	}
     }
 
 }
