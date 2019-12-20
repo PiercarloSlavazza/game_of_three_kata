@@ -192,6 +192,13 @@
                                         </data>
 
                                         <data>
+                                            <type>link</type>
+                                            <linkName>/usr/bin/play-game-of-three</linkName>
+                                            <linkTarget>/usr/game-of-three/bin/play-game-of-three</linkTarget>
+                                            <symlink>true</symlink>
+                                        </data>
+
+                                        <data>
                                           <src>${basedir}/game_of_three_server.yml</src>
                                           <type>file</type>
                                           <mapper>
