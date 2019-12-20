@@ -14,7 +14,7 @@ source /usr/game-of-three/conf/env.sh
 GAME_OF_THREE_YML=/usr/game-of-three/conf/game_of_three_server.yml
 GAME_OF_THREE_JAR="/usr/game-of-three/bin/game-of-three-*.jar"
 
-CMD="$JAVA8 $JAVA_OPTS -Dorg.jboss.logging.provider=slf4j -cp $GAME_OF_THREE_JAR kata.game_of_three.rest_api.server.GameTableServer $GAME_OF_THREE_YML"
+CMD="java $JAVA_OPTS -Dorg.jboss.logging.provider=slf4j -cp $GAME_OF_THREE_JAR kata.game_of_three.rest_api.server.GameTableServer $GAME_OF_THREE_YML"
 
 name=`basename $0`
 
