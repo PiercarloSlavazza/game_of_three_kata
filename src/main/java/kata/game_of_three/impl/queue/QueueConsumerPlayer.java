@@ -20,8 +20,8 @@ public class QueueConsumerPlayer implements Player {
 
     private final PlayerIdentifier playerIdentifier;
     private final Player player;
-    private final Connection connection;
-    private final Channel channel;
+    @SuppressWarnings("FieldCanBeLocal") private final Connection connection;
+    @SuppressWarnings("FieldCanBeLocal") private final Channel channel;
 
     public QueueConsumerPlayer(PlayerIdentifier playerIdentifier, Player player, ConnectionFactory connectionFactory) {
 	this.playerIdentifier = playerIdentifier;
@@ -50,7 +50,7 @@ public class QueueConsumerPlayer implements Player {
 		    return;
 		}
 
-		throw new IllegalStateException("unknown message");
+		throw new IllegalStateException("unknown message from queue");
 	    };
 	    channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
 
@@ -84,10 +84,10 @@ public class QueueConsumerPlayer implements Player {
     }
 
     @Override public void playTurn(Move opponentMove) {
-
+        player.playTurn(opponentMove);
     }
 
     @Override public void endGame(GameResult gameResult) {
-
+        player.endGame(gameResult);
     }
 }
