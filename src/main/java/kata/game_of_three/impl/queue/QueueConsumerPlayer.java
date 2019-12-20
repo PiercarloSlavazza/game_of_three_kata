@@ -22,11 +22,13 @@ import static kata.game_of_three.impl.queue.QueueProducerPlayer.GAME_OF_THREE_PL
 public class QueueConsumerPlayer implements Player {
 
     private final Player player;
+    private final boolean closeQueueConnectionOnEndGame;
     @SuppressWarnings("FieldCanBeLocal") private final Connection connection;
     @SuppressWarnings("FieldCanBeLocal") private final Channel channel;
 
-    public QueueConsumerPlayer(Player player, ConnectionFactory connectionFactory) {
+    public QueueConsumerPlayer(Player player, boolean closeQueueConnectionOnEndGame, ConnectionFactory connectionFactory) {
 	this.player = player;
+	this.closeQueueConnectionOnEndGame = closeQueueConnectionOnEndGame;
 	try {
 	    connection = connectionFactory.newConnection();
 	    channel = connection.createChannel();
@@ -94,6 +96,7 @@ public class QueueConsumerPlayer implements Player {
 
     @Override public void endGame(GameResult gameResult) {
 	player.endGame(gameResult);
+	if (!closeQueueConnectionOnEndGame) return;
 
 	try {
 	    channel.close();

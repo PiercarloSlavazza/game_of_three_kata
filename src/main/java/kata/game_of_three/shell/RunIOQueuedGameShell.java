@@ -27,10 +27,10 @@ public class RunIOQueuedGameShell {
 	PlayerIdentifier player2Identifier = new PlayerIdentifier("P2");
 
 	IOPlayer player1 = new IOPlayer(player1Identifier, gameTable, System.in, System.out);
-	new QueueConsumerPlayer(player1, connectionFactory);
+	new QueueConsumerPlayer(player1, true, connectionFactory);
 
 	IOPlayer player2 = new IOPlayer(player2Identifier, gameTable, System.in, System.out);
-	new QueueConsumerPlayer(player2, connectionFactory);
+	new QueueConsumerPlayer(player2, true, connectionFactory);
 
 	QueueProducerPlayer queueProducerPlayer1 = new QueueProducerPlayer(player1Identifier, connectionFactory);
 	registryPlayerFactory.addPlayer(queueProducerPlayer1);

@@ -29,10 +29,10 @@ public class RunAutonomousQueuedGameShell {
 	PlayerIdentifier player2Identifier = new PlayerIdentifier("P2");
 
 	AutonomousPlayer player1 = new AutonomousPlayer(player1Identifier, gameTable, autonomousPlayerEventsLogger);
-	new QueueConsumerPlayer(player1, connectionFactory);
+	new QueueConsumerPlayer(player1, true, connectionFactory);
 
 	AutonomousPlayer player2 = new AutonomousPlayer(player2Identifier, gameTable, autonomousPlayerEventsLogger);
-	new QueueConsumerPlayer(player2, connectionFactory);
+	new QueueConsumerPlayer(player2, true, connectionFactory);
 
 	QueueProducerPlayer queueProducerPlayer1 = new QueueProducerPlayer(player1Identifier, connectionFactory);
 	registryPlayerFactory.addPlayer(queueProducerPlayer1);
