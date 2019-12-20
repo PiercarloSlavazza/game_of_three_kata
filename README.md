@@ -1,6 +1,6 @@
 # Overview
 
-In this project, we implemented the code kata "Game Of Three", as defined [here]().
+In this project, we implemented the code kata "Game Of Three", as defined in the PDF document `./game-of-three-code-kata.pdf`.
 
 # Design
 
