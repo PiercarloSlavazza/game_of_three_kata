@@ -82,7 +82,7 @@ Examples:
 
 * two "human" players
 	* Player "david" - starts the Game: `play-game-of-three --playerId david --opponentId goliath --gameTableRestApiUrl http://127.0.0.1:8700/game_of_three_rest_api --rabbitMQHost 127.0.0.1`
-	* Player "goliath" - waits for invations to the Game: `play-game-of-three --playerId goliath --gameTableRestApiUrl http://127.0.0.1:8700/game_of_three_rest_api --rabbitMQHost 127.0.0.1`
+	* Player "goliath" - waits for an invitation to the Game: `play-game-of-three --playerId goliath --gameTableRestApiUrl http://127.0.0.1:8700/game_of_three_rest_api --rabbitMQHost 127.0.0.1`
 * autonomous player
 	* just use the `--autoPlay` flag
 	* you can play any kinds of combinations - human vs auto, auto vs auto, human vs human
