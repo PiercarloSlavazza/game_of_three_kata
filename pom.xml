@@ -131,4 +131,92 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>deb</id>
+            <activation>
+                <os>
+                    <family>linux</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.vafer</groupId>
+                        <artifactId>jdeb</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jdeb</goal>
+                                </goals>
+                                <configuration>
+                                    <verbose>true</verbose>
+                                    <deb>target/${project.build.finalName}.deb</deb>
+                                    <controlDir>${basedir}/src/deb/control</controlDir>
+                                    <dataSet>
+                                        <data>
+                                          <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                                          <type>file</type>
+                                          <mapper>
+                                            <type>perm</type>
+                                            <prefix>/usr/game-of-three/bin</prefix>
+                                            <user>root</user>
+                                            <group>root</group>
+                                          </mapper>
+                                        </data>
+        
+                                        <data>
+                                          <src>${basedir}/src/bin/game-of-three-server</src>
+                                          <type>file</type>
+                                          <mapper>
+                                            <type>perm</type>
+                                            <prefix>/usr/game-of-three/bin/</prefix>
+                                            <user>root</user>
+                                            <group>root</group>
+                                            <filemode>755</filemode>
+                                          </mapper>
+                                        </data>
+
+                                        <data>
+                                          <src>${basedir}/src/bin/play-game-of-three</src>
+                                          <type>file</type>
+                                          <mapper>
+                                            <type>perm</type>
+                                            <prefix>/usr/game-of-three/bin/</prefix>
+                                            <user>root</user>
+                                            <group>root</group>
+                                            <filemode>755</filemode>
+                                          </mapper>
+                                        </data>
+
+                                        <data>
+                                          <src>${basedir}/game_of_three_server.yml</src>
+                                          <type>file</type>
+                                          <mapper>
+                                            <type>perm</type>
+                                            <prefix>/usr/game-of-three/conf/</prefix>
+                                            <user>root</user>
+                                            <group>root</group>
+                                          </mapper>
+                                        </data>
+                                        
+                                        <data>
+                                            <type>link</type>
+                                            <linkName>/etc/init.d/blitz-server</linkName>
+                                            <linkTarget>/usr/game-of-three/bin/blitz-server</linkTarget>
+                                            <symlink>true</symlink>
+                                        </data>
+        
+                                    </dataSet>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
