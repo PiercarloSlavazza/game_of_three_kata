@@ -32,7 +32,7 @@ The `game-of-three-server` has been implemented as a [Dropwizard](https://www.dr
 
 Several patterns have been employed in the design and implementation: decorator, strategy, factory, observer...
 
-TDD has been employed to develop the core part of the system.
+TDD has been employed to develop the core part of the system (with the help of mock objects - via the Mockito library).
 
 # Build
 
