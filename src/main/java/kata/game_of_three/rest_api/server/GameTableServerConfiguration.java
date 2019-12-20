@@ -9,4 +9,5 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
+    public String rabbitMQHost;
 }

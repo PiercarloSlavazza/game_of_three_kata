@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.rabbitmq.client.ConnectionFactory;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -15,6 +16,7 @@ import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import kata.game_of_three.impl.GameTableImpl;
 import kata.game_of_three.impl.InMemoryGames;
+import kata.game_of_three.impl.RabbitMQProducerPlayerFactory;
 
 import java.util.UUID;
 
@@ -55,7 +57,12 @@ public class GameTableServer extends Application<GameTableServerConfiguration> {
     @Override public void run(GameTableServerConfiguration gameTableServerConfiguration, Environment environment) {
 
 	InMemoryGames games = new InMemoryGames();
-	GameTableImpl gameTable = new GameTableImpl(games, null, UUID::randomUUID);
+
+	ConnectionFactory connectionFactory = new ConnectionFactory();
+	connectionFactory.setHost(gameTableServerConfiguration.rabbitMQHost);
+	RabbitMQProducerPlayerFactory rabbitMQProducerPlayerFactory = new RabbitMQProducerPlayerFactory(connectionFactory);
+
+	GameTableImpl gameTable = new GameTableImpl(games, rabbitMQProducerPlayerFactory, UUID::randomUUID);
 	GameTableResource gameTableResource = new GameTableResource(gameTable);
 	environment.jersey().register(gameTableResource);
 
