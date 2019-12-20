@@ -28,7 +28,9 @@ One might argue that also the communication from the Players to the Game Table c
 
 ## UML
 
-Class diagram: ![Class Diagram](uml/class_diagram.png?raw=true "Class Diagram").
+This is the - simplified - Class Diagram: ![Class Diagram](uml/class_diagram.png?raw=true "Class Diagram")
+
+Lots of details and connections are missing: it is just meant to give an overview of the operations and relationships between the main domain classes.
 
 ## Implementation Details
 
