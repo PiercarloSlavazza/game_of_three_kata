@@ -26,6 +26,9 @@ import java.util.concurrent.TimeUnit;
 
 interface PlayGameOfThreeShellConfig {
 
+    @SuppressWarnings("unused") @Option(helpRequest = true, description = "display help", shortName = "h")
+    boolean getHelp();
+
     @Option(description = "The id of the current player")
     String getPlayerId();
 
