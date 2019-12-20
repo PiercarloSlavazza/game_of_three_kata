@@ -40,6 +40,10 @@ interface PlayGameOfThreeShellConfig {
     @Option
     Boolean getAutoPlay();
     Boolean isAutoPlay();
+
+    @Option
+    Integer getInception();
+    boolean isInception();
 }
 
 public class PlayGameOfThreeShell {
@@ -89,7 +93,8 @@ public class PlayGameOfThreeShell {
 	Player player = buildPlayer(config.isAutoPlay() ? config.getAutoPlay() : false, playerIdentifier, gameTable);
 	new QueueConsumerPlayer(player, connectionFactory);
 
-	PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, new Random().nextInt());
+	int inception = config.isInception() ? config.getInception() : new Random().nextInt();
+	PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
 	gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
     }
 
