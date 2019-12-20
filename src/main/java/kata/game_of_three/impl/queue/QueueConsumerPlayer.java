@@ -1,6 +1,7 @@
 package kata.game_of_three.impl.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -61,7 +62,7 @@ public class QueueConsumerPlayer implements Player {
     private Optional<Move> tryToReadMove(byte[] jsonSerializedMove, ObjectMapper objectMapper) {
 	try {
 	    return Optional.of(objectMapper.readValue(jsonSerializedMove, Move.class));
-	} catch (ClassCastException e) {
+	} catch (ClassCastException | UnrecognizedPropertyException e) {
 	    return Optional.empty();
 	} catch (IOException e) {
 	    throw new RuntimeException(e);
@@ -71,7 +72,7 @@ public class QueueConsumerPlayer implements Player {
     private Optional<GameResult> tryToReadGameResult(byte[] jsonSerializedMove, ObjectMapper objectMapper) {
 	try {
 	    return Optional.of(objectMapper.readValue(jsonSerializedMove, GameResult.class));
-	} catch (ClassCastException e) {
+	} catch (ClassCastException | UnrecognizedPropertyException e) {
 	    return Optional.empty();
 	} catch (IOException e) {
 	    throw new RuntimeException(e);

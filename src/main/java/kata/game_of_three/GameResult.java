@@ -5,9 +5,11 @@ import java.util.UUID;
 
 public class GameResult {
 
-    private final UUID gameUuid;
-    private final GameOutcome gameOutcome;
-    private final GameOutcomeReason gameOutcomeReason;
+    private UUID gameUuid;
+    private GameOutcome gameOutcome;
+    private GameOutcomeReason gameOutcomeReason;
+
+    @SuppressWarnings("unused") private GameResult() {}
 
     public GameResult(UUID gameUuid, GameOutcome gameOutcome, GameOutcomeReason gameOutcomeReason) {
 	this.gameUuid = gameUuid;
