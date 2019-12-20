@@ -4,3 +4,9 @@
 /dependency-reduced-pom.xml
 /log.txt
 /swagger.json
+/build.gradle
+/build.sbt
+/git_push.sh
+/gradle.properties
+/settings.gradle
+/src/main/AndroidManifest.xml
