@@ -34,6 +34,12 @@ This is the - simplified - Class Diagram:
 
 Lots of details and connections are missing: it is just meant to give an overview of the operations and relationships between the main domain classes.
 
+This is the - simplified - Sequence Diagram:
+
+![Sequence Diagram](uml/sequence_diagram.png?raw=true "Sequence Diagram")
+
+The Sequence Diagram represents the main interactions between a Player and the Game Table - client/server, decoupled by means of a Queue.
+
 ## Implementation Details
 
 The `game-of-three-server` has been implemented as a [Dropwizard](https://www.dropwizard.io) application; its API has a [Swagger](https://swagger.io/) end-point, and therefore the client is automatically generated via [`swagger-codegen`](https://github.com/swagger-api/swagger-codegen).
