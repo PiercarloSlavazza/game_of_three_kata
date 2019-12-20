@@ -43,7 +43,7 @@ public class QueueProducerPlayer implements Player {
 				 false,
 				 false,
 				 true,
-				 new HashMap<>());
+			     new HashMap<>());
 	    channel.queueBind(opponentMove.getOpponent().getId(), GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, opponentMove.getOpponent().getId());
 
 	    ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());

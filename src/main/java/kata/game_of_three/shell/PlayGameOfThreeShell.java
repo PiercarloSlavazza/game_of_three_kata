@@ -112,6 +112,12 @@ public class PlayGameOfThreeShell {
 	    new QueueConsumerPlayer(player, closeQueueConnectionOnEndGame, connectionFactory);
 
 	    if (config.isOpponentId()) {
+	        if (playerIdentifier.getId().equals(config.getOpponentId())) {
+	            System.out.println("You cannot play against yourself!");
+	            System.exit(-1);
+	            return;
+		}
+
 		PlayerIdentifier opponentIdentifier = new PlayerIdentifier(config.getOpponentId());
 		int inception = config.isInception() ? config.getInception() : (new Random().nextInt() & Integer.MAX_VALUE);
 		PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
