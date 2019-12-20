@@ -10,4 +10,5 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
     public SwaggerBundleConfiguration swaggerBundleConfiguration;
 
     public String rabbitMQHost;
+    public Integer rabbitMQPort;
 }

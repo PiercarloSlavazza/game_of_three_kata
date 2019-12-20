@@ -60,6 +60,7 @@ public class GameTableServer extends Application<GameTableServerConfiguration> {
 
 	ConnectionFactory connectionFactory = new ConnectionFactory();
 	connectionFactory.setHost(gameTableServerConfiguration.rabbitMQHost);
+	connectionFactory.setPort(gameTableServerConfiguration.rabbitMQPort);
 	RabbitMQProducerPlayerFactory rabbitMQProducerPlayerFactory = new RabbitMQProducerPlayerFactory(connectionFactory);
 
 	GameTableImpl gameTable = new GameTableImpl(games, rabbitMQProducerPlayerFactory, UUID::randomUUID);
