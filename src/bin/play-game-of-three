@@ -1,0 +1,5 @@
+#!/bin/bash
+
+GAME_OF_THREE_JAR="/usr/game-of-three/bin/game-of-three-*.jar"
+
+java $JAVA_OPTS -cp $GAME_OF_THREE_JAR kata.game_of_three.shell.PlayGameOfThreeShell $*
