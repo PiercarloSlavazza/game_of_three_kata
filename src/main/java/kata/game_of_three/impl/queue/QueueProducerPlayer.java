@@ -55,7 +55,9 @@ public class QueueProducerPlayer implements Player {
 				 playerIdentifier.getId(),
 				 null,
 				 objectMapper.writeValueAsBytes(gameResult));
-	} catch (IOException e) {
+	    channel.close();
+	    connection.close();
+	} catch (IOException | TimeoutException e) {
 	    throw new RuntimeException(e);
 	}
     }
