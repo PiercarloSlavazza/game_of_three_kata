@@ -3,6 +3,7 @@ package kata.game_of_three.shell;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lexicalscope.jewel.cli.CliFactory;
+import com.lexicalscope.jewel.cli.HelpRequestedException;
 import com.lexicalscope.jewel.cli.Option;
 import com.rabbitmq.client.ConnectionFactory;
 import kata.game_of_three.GameTable;
@@ -25,28 +26,28 @@ import java.util.concurrent.TimeUnit;
 
 interface PlayGameOfThreeShellConfig {
 
-    @Option
+    @Option(description = "The id of the current player")
     String getPlayerId();
 
-    @Option
+    @Option(description = "The id of the player invited to join the game; optional, if you just want to be invited")
     String getOpponentId();
     boolean isOpponentId();
 
-    @Option
+    @Option(description = "The URL of the Game Table Server, e.g. http://127.0.0.1:8700/game_of_three_rest_api")
     String getGameTableRestApiUrl();
 
-    @Option
+    @Option(description = "The host of the RabbitMQ game events queue")
     String getRabbitMQHost();
 
-    @Option
+    @Option(description = "The port of the RabbitMQ game events queue (optional)")
     Integer getRabbitMQPort();
     Boolean isRabbitMQPort();
 
-    @Option
+    @Option(description = "Flag to enable autonomous play (optional, default false)")
     Boolean getAutoPlay();
     Boolean isAutoPlay();
 
-    @Option
+    @Option(description = "Game inception number (optional, default is random)")
     Integer getInception();
     boolean isInception();
 }
@@ -84,28 +85,33 @@ public class PlayGameOfThreeShell {
 
     public static void main(String[] args) {
 
-	PlayGameOfThreeShellConfig config = CliFactory.parseArguments(PlayGameOfThreeShellConfig.class, args);
-	log.info("start|configs" + config.toString());
+        try {
+	    PlayGameOfThreeShellConfig config = CliFactory.parseArguments(PlayGameOfThreeShellConfig.class, args);
+	    log.info("start|configs" + config.toString());
 
-	GameTable gameTable = new GameTableClient(buildGameTableRestApi(config.getGameTableRestApiUrl()));
+	    GameTable gameTable = new GameTableClient(buildGameTableRestApi(config.getGameTableRestApiUrl()));
 
-	ConnectionFactory connectionFactory = new ConnectionFactory();
-	connectionFactory.setHost(config.getRabbitMQHost());
-	if (config.isRabbitMQPort()) connectionFactory.setPort(config.getRabbitMQPort());
+	    ConnectionFactory connectionFactory = new ConnectionFactory();
+	    connectionFactory.setHost(config.getRabbitMQHost());
+	    if (config.isRabbitMQPort())
+		connectionFactory.setPort(config.getRabbitMQPort());
 
-	PlayerIdentifier playerIdentifier = new PlayerIdentifier(config.getPlayerId());
+	    PlayerIdentifier playerIdentifier = new PlayerIdentifier(config.getPlayerId());
 
-	Player player = buildPlayer(config.isAutoPlay() ? config.getAutoPlay() : false, playerIdentifier, gameTable);
-	new QueueConsumerPlayer(player, connectionFactory);
+	    Player player = buildPlayer(config.isAutoPlay() ? config.getAutoPlay() : false, playerIdentifier, gameTable);
+	    new QueueConsumerPlayer(player, connectionFactory);
 
-	if (config.isOpponentId()) {
-	    PlayerIdentifier opponentIdentifier = new PlayerIdentifier(config.getOpponentId());
-	    int inception = config.isInception() ? config.getInception() : new Random().nextInt();
-	    PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
-	    System.out.println(player.getIdentifier().getId() + " > starting game against [" + opponentIdentifier.getId() + "] with inception " + inception);
-	    gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
-	} else {
-	    System.out.println(player.getIdentifier().getId() + " > waiting to be invited to a game...");
+	    if (config.isOpponentId()) {
+		PlayerIdentifier opponentIdentifier = new PlayerIdentifier(config.getOpponentId());
+		int inception = config.isInception() ? config.getInception() : (new Random().nextInt() & Integer.MAX_VALUE);
+		PlayerInvitation playerInvitation = new PlayerInvitation(playerIdentifier, opponentIdentifier, inception);
+		System.out.println(player.getIdentifier().getId() + " > starting game against [" + opponentIdentifier.getId() + "] with inception " + inception);
+		gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
+	    } else {
+		System.out.println(player.getIdentifier().getId() + " > waiting to be invited to a game...");
+	    }
+	} catch (HelpRequestedException helpRequestedException) {
+	    System.out.println(helpRequestedException.getMessage());
 	}
     }
 
