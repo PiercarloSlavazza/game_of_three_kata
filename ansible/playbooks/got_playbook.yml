@@ -1,0 +1,18 @@
+---
+- hosts: got_servers
+  become: yes
+  become_method: sudo
+  become_flags: "-E"
+
+  tasks:
+  - include: common_tasks.yml
+    tags: common
+
+  - name: add rabbitmq official apt repository
+    apt_repository: repo='deb http://www.rabbitmq.com/debian/ testing main' state=present
+
+  - name: install package
+    apt: 
+      name: rabbitmq-server
+      allow_unauthenticated: yes
+      state: present

@@ -1,0 +1,3 @@
+---
+ansible_host: 167.172.37.122
+update_hostname: true

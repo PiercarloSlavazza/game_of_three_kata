@@ -1,0 +1,20 @@
+alias tlog='tail -f /usr/km70/apache-tomcat-7.0.77/logs/catalina.out'
+alias llog='less /usr/km70/apache-tomcat-7.0.77/logs/catalina.out'
+
+alias lkcaslog='tail -f /var/log/cas-server/cas.log'
+alias lkcaserr='tail -f /var/log/cas-server.err'
+
+alias lkblitzlog='tail -f /var/log/blitz-server/application.log'
+alias lkblitzerr='tail -f /var/log/blitz-server.err'
+
+alias lkeslog='tail -f /var/log/elasticsearch/elasticsearch.log'
+
+alias lkapalog='tail -f /var/log/apache2/access.log'
+alias lkapaerr='tail -f /var/log/apache2/error.log'
+
+alias leliferay='tail -100f /opt/ilex-liferay/tomcat/logs/catalina.out'
+alias ledo='tail -100f /opt/ilex-deskoperativo/logs/catalina.out'
+alias leengine='tail -100f /opt/ilex-engine/logs/catalina.out'
+alias leexc='tail -100f /opt/ilex-exchange/logs/ilex-exchange.log'
+alias leexcs='tail -100f /opt/ilex-exchange/logs/ilex-exchange-sync.log'
+alias leexcq='tail -100f /opt/ilex-exchange/logs/ilex-exchange-query.log'
