@@ -204,8 +204,8 @@
                                         
                                         <data>
                                             <type>link</type>
-                                            <linkName>/etc/init.d/blitz-server</linkName>
-                                            <linkTarget>/usr/game-of-three/bin/blitz-server</linkTarget>
+                                            <linkName>/etc/init.d/game_of_three_server</linkName>
+                                            <linkTarget>/usr/game-of-three/bin/game_of_three_server</linkTarget>
                                             <symlink>true</symlink>
                                         </data>
         
