@@ -88,3 +88,4 @@ Examples:
 	* you can play any kinds of combinations - human vs auto, auto vs auto, human vs human
 * set inception
 	* just use the `--inception` parameter
+* consider that a player that is started as a "waiter" can be invitated to play *multiple games* at the same time
