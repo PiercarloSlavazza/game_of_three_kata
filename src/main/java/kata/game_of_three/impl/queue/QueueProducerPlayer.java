@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
 
 public class QueueProducerPlayer implements Player {
 
-    private static final String GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME = "game_of_three_players_events";
+    static final String GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME = "game_of_three_players_events";
 
     private final PlayerIdentifier playerIdentifier;
     private final Connection connection;
