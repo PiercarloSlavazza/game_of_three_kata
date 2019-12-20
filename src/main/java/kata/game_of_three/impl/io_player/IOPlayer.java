@@ -41,10 +41,17 @@ import static kata.game_of_three.GameOutcomeReason.UNKNOWN_PLAYER;
 	return "Invalid input: please answer with -1 or 0 or 1" + input.map(i -> " (your input was: " + i + ")").orElse("") + ":";
     }
 
-    @Override public void playTurn(Move opponentMove) {
+    /*
+    This method is synchronized because the very same Player can play several Games simultaneously
+     */
+    @Override public synchronized void playTurn(Move opponentMove) {
 	Integer opponentNumber = opponentMove.getResultingNumber();
-	printStream.println(String.format("%s > Opponent move: %d",
+	printStream.println(String.format("%s > Game: %s",
 					  playerIdentifier.getId(),
+					  opponentMove.getGameUuid()));
+	printStream.println(String.format("%s > Opponent [%s] move: %d",
+					  playerIdentifier.getId(),
+					  opponentMove.getPlayer().getId(),
 					  opponentNumber));
 	printStream.println(String.format("%s > Your reply [-1,0,1]:", playerIdentifier.getId()));
 	do {
@@ -78,9 +85,14 @@ import static kata.game_of_three.GameOutcomeReason.UNKNOWN_PLAYER;
 	throw new IllegalStateException("unknown game outcome reason|" + gameOutcomeReason);
     }
 
-    @Override public void endGame(GameResult gameResult) {
+    /*
+    This method is synchronized because the very same Player can play several Games simultaneously
+     */
+    @Override public synchronized void endGame(GameResult gameResult) {
 	boolean youWin = gameResult.getGameOutcome().equals(GameOutcome.YOU_WIN);
-	String endGameMessage = playerIdentifier.getId() + " > You " + (youWin ? "WIN!" : "lose.") + " " + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
+	String endGameMessage = playerIdentifier.getId() + " > You " + (youWin ? "WIN" : "lose") + " " +
+			"game " + gameResult.getGameUuid() + ". " +
+			formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
 	printStream.println(endGameMessage);
     }
 }

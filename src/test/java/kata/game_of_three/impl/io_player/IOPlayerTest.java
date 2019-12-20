@@ -39,7 +39,9 @@ public class IOPlayerTest {
 
 	    outputStream.close();
 	    String lineSeparator = System.getProperty("line.separator");
-	    String playerOutput = String.format("player2 > Opponent move: 14%splayer2 > Your reply [-1,0,1]:%sYour move is: 1, 5. Waiting for your opponent...%s",
+	    String playerOutput = String.format("player2 > Game: %s%splayer2 > Opponent [player1] move: 14%splayer2 > Your reply [-1,0,1]:%sYour move is: 1, 5. Waiting for your opponent...%s",
+						gameUuid,
+						lineSeparator,
 						lineSeparator,
 						lineSeparator,
 						lineSeparator);
