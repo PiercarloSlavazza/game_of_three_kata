@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Uninstalling init script"
+sudo update-rc.d -f game-of-three-server remove

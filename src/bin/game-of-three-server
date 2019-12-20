@@ -1,0 +1,57 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          game-of-three-server
+# Required-Start:    $remote_fs $syslog 
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Game Of Three Server at boot time
+# Description:       Start Game Of Three Server at boot time
+### END INIT INFO
+
+source /usr/game-of-three/conf/env.sh
+
+GAME_OF_THREE_YML=/usr/game-of-three/conf/game_of_three_server.yml
+GAME_OF_THREE_JAR="/usr/game-of-three/bin/game-of-three-*.jar"
+
+CMD="$JAVA8 $JAVA_OPTS -Dorg.jboss.logging.provider=slf4j -cp $GAME_OF_THREE_JAR kata.game_of_three.rest_api.server.GameTableServer $GAME_OF_THREE_YML"
+
+name=`basename $0`
+
+stderr_log="/var/log/$name.err"
+
+pid_file="/var/run/$name.pid"
+
+isRunning() {
+	[ -f "$pid_file" ] && ps `cat $pid_file` > /dev/null 2>&1
+}
+
+case $1 in
+	start)
+if isRunning; then
+	echo "Already started"
+else
+	echo "Starting $name|with command|$CMD"
+	$CMD > /dev/null 2> "$stderr_log" & echo $! > "$pid_file"
+	if ! isRunning; then
+		echo "Unable to start, see $stderr_log"
+		exit 1
+	fi
+fi
+;;
+stop)
+if isRunning; then
+	echo "Stopping $name"
+	kill `cat $pid_file`
+	rm "$pid_file"
+else
+	echo "Not running"
+fi
+;;
+restart)
+$0 stop
+$0 start
+;;
+esac
+
+exit 0
