@@ -13,6 +13,7 @@ import kata.game_of_three.Player;
 import kata.game_of_three.PlayerIdentifier;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
@@ -31,11 +32,15 @@ public class QueueConsumerPlayer implements Player {
 	    channel = connection.createChannel();
 	    channel.exchangeDeclare(GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, "direct");
 
-	    String queueName = channel.queueDeclare().getQueue();
-	    channel.queueBind(queueName, GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, player.getIdentifier().getId());
+	    channel.queueDeclare(player.getIdentifier().getId(),
+				 false,
+				 false,
+				 true,
+				 new HashMap<>());
+	    channel.queueBind(player.getIdentifier().getId(), GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, player.getIdentifier().getId());
 
 	    DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-	        byte[] message = delivery.getBody();
+		byte[] message = delivery.getBody();
 		ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
 
 		Optional<Move> move = tryToReadMove(message, objectMapper);
@@ -52,7 +57,7 @@ public class QueueConsumerPlayer implements Player {
 
 		throw new IllegalStateException("unknown message from queue");
 	    };
-	    channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
+	    channel.basicConsume(player.getIdentifier().getId(), true, deliverCallback, consumerTag -> { });
 
 	} catch (IOException | TimeoutException e) {
 	    throw new RuntimeException(e);
@@ -84,11 +89,11 @@ public class QueueConsumerPlayer implements Player {
     }
 
     @Override public void playTurn(Move opponentMove) {
-        player.playTurn(opponentMove);
+	player.playTurn(opponentMove);
     }
 
     @Override public void endGame(GameResult gameResult) {
-        player.endGame(gameResult);
+	player.endGame(gameResult);
 
 	try {
 	    channel.close();

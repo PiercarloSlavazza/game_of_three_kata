@@ -11,6 +11,7 @@ import kata.game_of_three.Player;
 import kata.game_of_three.PlayerIdentifier;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 public class QueueProducerPlayer implements Player {
@@ -37,8 +38,16 @@ public class QueueProducerPlayer implements Player {
     }
 
     @Override public void playTurn(Move opponentMove) {
-	ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
 	try {
+	    channel.queueDeclare(opponentMove.getOpponent().getId(),
+				 false,
+				 false,
+				 true,
+				 new HashMap<>());
+	    channel.queueBind(opponentMove.getOpponent().getId(), GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, opponentMove.getOpponent().getId());
+
+	    ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
+
 	    channel.basicPublish(GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME,
 				 playerIdentifier.getId(),
 				 null,
