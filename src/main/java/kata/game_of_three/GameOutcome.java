@@ -15,7 +15,7 @@ public class GameOutcome {
 	this.youWin = youWin;
     }
 
-    public Boolean getYouWin() {
+    @SuppressWarnings("unused") public Boolean getYouWin() {
 	return youWin;
     }
 
