@@ -16,7 +16,7 @@ In order to address these issues, we introduced the concept of a "Game Table":
 
 So, we have implemented two Java programs:
 
-* `game-of-three-server` which is a Rest Web Server daemon acting as "Game Table"
+* `game-of-three-server` which is a Rest Web Server daemon acting as "Game Table" (which is run as a Unix service in the *deb* packaging - see later)
 * `play-game-of-three` which is a terminal operated command acting as player's interface
 
 The programs behave as follow:
