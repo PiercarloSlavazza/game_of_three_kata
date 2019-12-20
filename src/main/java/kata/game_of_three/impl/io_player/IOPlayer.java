@@ -8,6 +8,10 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
 
+import static kata.game_of_three.GameOutcomeReason.GOT_ONE;
+import static kata.game_of_three.GameOutcomeReason.INVALID_MOVE;
+import static kata.game_of_three.GameOutcomeReason.UNKNOWN_PLAYER;
+
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class IOPlayer implements Player {
 
     private final PlayerIdentifier playerIdentifier;
@@ -66,17 +70,12 @@ import java.util.Scanner;
 	} while (true);
     }
 
-    private String formatEndGameOutcomeReason(boolean youWin, GameResult.GAME_OUTCOME_REASON gameOutcomeReason) {
-	switch (gameOutcomeReason) {
-	    case GOT_ONE:
-		return youWin ? "You got 1." : "Your opponent got 1.";
-	    case INVALID_MOVE:
-		return youWin ? "Your opponent did an invalid move" : "You did an invalid move.";
-	    case UNKNOWN_PLAYER:
-		return "Your opponent replied to an unknown player.";
-	    default:
-	        throw new IllegalStateException("unknown game outcome reason|" + gameOutcomeReason);
-	}
+    private String formatEndGameOutcomeReason(boolean youWin, GameOutcomeReason gameOutcomeReason) {
+        if (gameOutcomeReason.equals(GOT_ONE)) return youWin ? "You got 1." : "Your opponent got 1.";
+	if (gameOutcomeReason.equals(INVALID_MOVE)) return youWin ? "Your opponent did an invalid move" : "You did an invalid move.";
+	if (gameOutcomeReason.equals(UNKNOWN_PLAYER)) return "Your opponent replied to an unknown player.";
+
+	throw new IllegalStateException("unknown game outcome reason|" + gameOutcomeReason);
     }
 
     @Override public void endGame(GameResult gameResult) {

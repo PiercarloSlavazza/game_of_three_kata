@@ -5,15 +5,11 @@ import java.util.UUID;
 
 public class GameResult {
 
-    public enum GAME_OUTCOME_REASON {
-        INVALID_MOVE, GOT_ONE, UNKNOWN_PLAYER
-    }
-
     private final UUID gameUuid;
     private final GameOutcome gameOutcome;
-    private final GAME_OUTCOME_REASON gameOutcomeReason;
+    private final GameOutcomeReason gameOutcomeReason;
 
-    public GameResult(UUID gameUuid, GameOutcome gameOutcome, GAME_OUTCOME_REASON gameOutcomeReason) {
+    public GameResult(UUID gameUuid, GameOutcome gameOutcome, GameOutcomeReason gameOutcomeReason) {
 	this.gameUuid = gameUuid;
 	this.gameOutcome = gameOutcome;
 	this.gameOutcomeReason = gameOutcomeReason;
@@ -27,7 +23,7 @@ public class GameResult {
 	return gameOutcome;
     }
 
-    public GAME_OUTCOME_REASON getGameOutcomeReason() {
+    public GameOutcomeReason getGameOutcomeReason() {
 	return gameOutcomeReason;
     }
 
