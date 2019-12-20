@@ -80,7 +80,7 @@ import java.util.Scanner;
     }
 
     @Override public void endGame(GameResult gameResult) {
-	boolean youWin = gameResult.getGameOutcome().equals(GameResult.GAME_OUTCOME.YOU_WIN);
+	boolean youWin = gameResult.getGameOutcome().equals(GameOutcome.YOU_WIN);
 	String endGameMessage = playerIdentifier.getId() + " > You " + (youWin ? "WIN!" : "lose.") + " " + formatEndGameOutcomeReason(youWin, gameResult.getGameOutcomeReason());
 	printStream.println(endGameMessage);
     }

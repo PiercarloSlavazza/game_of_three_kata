@@ -49,9 +49,9 @@ public class AutonomousPlayersIntegrationTest {
 
 	List<PlayerEndGame> expectedPlayerEndGames = new ArrayList<>();
 	expectedPlayerEndGames.add(new PlayerEndGame(player1Identifier,
-						     new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE)));
+						     new GameResult(gameUuid, GameOutcome.YOU_WIN, GameResult.GAME_OUTCOME_REASON.GOT_ONE)));
 	expectedPlayerEndGames.add(new PlayerEndGame(player2Identifier,
-						     new GameResult(gameUuid, GameResult.GAME_OUTCOME.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE)));
+						     new GameResult(gameUuid, GameOutcome.YOU_LOSE, GameResult.GAME_OUTCOME_REASON.GOT_ONE)));
 	assertEquals(expectedPlayerEndGames, autonomousPlayerEventsCollector.getRecordedPlayerEndGames());
     }
 
