@@ -17,7 +17,7 @@ public class QueueProducerPlayer implements Player {
     static final String GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME = "game_of_three_players_events";
 
     private final PlayerIdentifier playerIdentifier;
-    private final Connection connection;
+    @SuppressWarnings("FieldCanBeLocal") private final Connection connection;
     private final Channel channel;
 
     public QueueProducerPlayer(PlayerIdentifier playerIdentifier, ConnectionFactory connectionFactory) {

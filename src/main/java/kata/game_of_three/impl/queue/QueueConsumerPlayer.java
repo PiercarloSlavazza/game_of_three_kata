@@ -18,13 +18,11 @@ import static kata.game_of_three.impl.queue.QueueProducerPlayer.GAME_OF_THREE_PL
 
 public class QueueConsumerPlayer implements Player {
 
-    private final PlayerIdentifier playerIdentifier;
     private final Player player;
     @SuppressWarnings("FieldCanBeLocal") private final Connection connection;
     @SuppressWarnings("FieldCanBeLocal") private final Channel channel;
 
-    public QueueConsumerPlayer(PlayerIdentifier playerIdentifier, Player player, ConnectionFactory connectionFactory) {
-	this.playerIdentifier = playerIdentifier;
+    public QueueConsumerPlayer(Player player, ConnectionFactory connectionFactory) {
 	this.player = player;
 	try {
 	    connection = connectionFactory.newConnection();
@@ -32,7 +30,7 @@ public class QueueConsumerPlayer implements Player {
 	    channel.exchangeDeclare(GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, "direct");
 
 	    String queueName = channel.queueDeclare().getQueue();
-	    channel.queueBind(queueName, GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, playerIdentifier.getId());
+	    channel.queueBind(queueName, GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME, player.getIdentifier().getId());
 
 	    DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 	        byte[] message = delivery.getBody();
@@ -80,7 +78,7 @@ public class QueueConsumerPlayer implements Player {
     }
 
     @Override public PlayerIdentifier getIdentifier() {
-	return playerIdentifier;
+	return player.getIdentifier();
     }
 
     @Override public void playTurn(Move opponentMove) {
