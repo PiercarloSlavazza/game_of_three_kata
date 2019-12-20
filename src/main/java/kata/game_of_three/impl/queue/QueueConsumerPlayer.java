@@ -1,6 +1,7 @@
 package kata.game_of_three.impl.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -34,7 +35,7 @@ public class QueueConsumerPlayer implements Player {
 
 	    DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 	        byte[] message = delivery.getBody();
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
 
 		Optional<Move> move = tryToReadMove(message, objectMapper);
 		if (move.isPresent()) {

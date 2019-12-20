@@ -1,6 +1,7 @@
 package kata.game_of_three.impl.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -36,7 +37,7 @@ public class QueueProducerPlayer implements Player {
     }
 
     @Override public void playTurn(Move opponentMove) {
-	ObjectMapper objectMapper = new ObjectMapper();
+	ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
 	try {
 	    channel.basicPublish(GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME,
 				 playerIdentifier.getId(),
@@ -48,7 +49,7 @@ public class QueueProducerPlayer implements Player {
     }
 
     @Override public void endGame(GameResult gameResult) {
-	ObjectMapper objectMapper = new ObjectMapper();
+	ObjectMapper objectMapper = new ObjectMapper().registerModule(new Jdk8Module());
 	try {
 	    channel.basicPublish(GAME_OF_THREE_PLAYERS_EVENTS_EXCHANGE_NAME,
 				 playerIdentifier.getId(),

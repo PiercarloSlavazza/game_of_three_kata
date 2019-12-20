@@ -10,6 +10,8 @@ public class MoveReply {
 
     private Integer value;
 
+    @SuppressWarnings("unused") private MoveReply() {}
+
     private MoveReply(Integer value) {
 	this.value = value;
     }
