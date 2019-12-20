@@ -4,7 +4,9 @@ import java.util.Objects;
 
 public class PlayerIdentifier {
 
-    private final String id;
+    private String id;
+
+    @SuppressWarnings("unused") private PlayerIdentifier() {}
 
     public PlayerIdentifier(String id) {
 	this.id = id;
