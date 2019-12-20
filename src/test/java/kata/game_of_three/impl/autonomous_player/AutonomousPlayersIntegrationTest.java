@@ -1,9 +1,6 @@
 package kata.game_of_three.impl.autonomous_player;
 
-import kata.game_of_three.GameResult;
-import kata.game_of_three.Move;
-import kata.game_of_three.Player;
-import kata.game_of_three.PlayerInvitation;
+import kata.game_of_three.*;
 import kata.game_of_three.impl.*;
 import org.junit.Test;
 
@@ -24,8 +21,8 @@ public class AutonomousPlayersIntegrationTest {
 	AutonomousPlayerEventsCollector autonomousPlayerEventsCollector = new AutonomousPlayerEventsCollector();
 	AutonomousPlayerEventsLogger autonomousPlayerEventsLogger = new AutonomousPlayerEventsLogger();
 
-	PlayerIdentifierImpl player1Identifier = new PlayerIdentifierImpl("P1");
-	PlayerIdentifierImpl player2Identifier = new PlayerIdentifierImpl("P2");
+	PlayerIdentifier player1Identifier = new PlayerIdentifier("P1");
+	PlayerIdentifier player2Identifier = new PlayerIdentifier("P2");
 
 	Player player1 = new AutonomousPlayer(player1Identifier, gameTable, autonomousPlayerEventsCollector, autonomousPlayerEventsLogger);
 	registryPlayerFactory.addPlayer(player1);

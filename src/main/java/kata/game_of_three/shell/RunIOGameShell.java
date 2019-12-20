@@ -1,11 +1,11 @@
 package kata.game_of_three.shell;
 
 import kata.game_of_three.Player;
+import kata.game_of_three.PlayerIdentifier;
 import kata.game_of_three.PlayerInvitation;
 import kata.game_of_three.impl.RegistryPlayerFactory;
 import kata.game_of_three.impl.GameTableImpl;
 import kata.game_of_three.impl.InMemoryGames;
-import kata.game_of_three.impl.PlayerIdentifierImpl;
 import kata.game_of_three.impl.io_player.IOPlayer;
 
 import java.util.UUID;
@@ -18,8 +18,8 @@ public class RunIOGameShell {
 	InMemoryGames games = new InMemoryGames();
 	GameTableImpl gameTable = new GameTableImpl(games, registryPlayerFactory, UUID::randomUUID);
 
-	PlayerIdentifierImpl player1Identifier = new PlayerIdentifierImpl("P1");
-	PlayerIdentifierImpl player2Identifier = new PlayerIdentifierImpl("P2");
+	PlayerIdentifier player1Identifier = new PlayerIdentifier("P1");
+	PlayerIdentifier player2Identifier = new PlayerIdentifier("P2");
 
 	Player player1 = new IOPlayer(player1Identifier, gameTable, System.in, System.out);
 	registryPlayerFactory.addPlayer(player1);
