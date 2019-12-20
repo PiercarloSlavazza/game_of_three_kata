@@ -1,9 +1,6 @@
 package kata.game_of_three.impl.autonomous_player;
 
-import kata.game_of_three.GameResult;
-import kata.game_of_three.GameTable;
-import kata.game_of_three.Move;
-import kata.game_of_three.Player;
+import kata.game_of_three.*;
 import kata.game_of_three.impl.GameOfThreeMockUtils;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,10 +23,10 @@ public class AutonomousPlayerTest {
 
 	UUID gameUuid = UUID.randomUUID();
 
-	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), Move.REPLY.ZERO, 15);
+	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), MoveReply.ZERO, 15);
 	autonomousPlayer.playTurn(player1Move);
 
-	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), Move.REPLY.ZERO, 5);
+	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), MoveReply.ZERO, 5);
 	Mockito.verify(gameTable, times(1)).acceptMove(expectedMove);
 	verify(playerEventsListener, times(1)).onPlayTurn(expectedMove, player1Move);
     }
@@ -44,10 +41,10 @@ public class AutonomousPlayerTest {
 
 	UUID gameUuid = UUID.randomUUID();
 
-	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), Move.REPLY.ZERO, 14);
+	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), MoveReply.ZERO, 14);
 	autonomousPlayer.playTurn(player1Move);
 
-	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), Move.REPLY.ONE, 5);
+	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), MoveReply.ONE, 5);
 	Mockito.verify(gameTable, times(1)).acceptMove(expectedMove);
 	verify(playerEventsListener, times(1)).onPlayTurn(expectedMove, player1Move);
     }
@@ -62,10 +59,10 @@ public class AutonomousPlayerTest {
 
 	UUID gameUuid = UUID.randomUUID();
 
-	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), Move.REPLY.ZERO, 16);
+	Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), autonomousPlayer.getIdentifier(), MoveReply.ZERO, 16);
 	autonomousPlayer.playTurn(player1Move);
 
-	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), Move.REPLY.MINUS_ONE, 5);
+	Move expectedMove = new Move(gameUuid, autonomousPlayer.getIdentifier(), opponentPlayer.getIdentifier(), MoveReply.MINUS_ONE, 5);
 	Mockito.verify(gameTable, times(1)).acceptMove(expectedMove);
 	verify(playerEventsListener, times(1)).onPlayTurn(expectedMove, player1Move);
     }

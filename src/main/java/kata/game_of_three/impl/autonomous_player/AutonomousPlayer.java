@@ -27,10 +27,10 @@ public class AutonomousPlayer implements Player {
 	return opponentNumberModuloThree == 0 ? 0 : opponentNumberModuloThree == 1 ? -1 : 1;
     }
 
-    private Move.REPLY normalizeReply(int reply) {
-	if (reply == 0) return Move.REPLY.ZERO;
-	if (reply == -1) return  Move.REPLY.MINUS_ONE;
-	if (reply == 1) return Move.REPLY.ONE;
+    private MoveReply normalizeReply(int reply) {
+	if (reply == 0) return MoveReply.ZERO;
+	if (reply == -1) return  MoveReply.MINUS_ONE;
+	if (reply == 1) return MoveReply.ONE;
 	throw new IllegalStateException("reply must be in [-1, 1] but is" + reply);
     }
 
@@ -40,9 +40,9 @@ public class AutonomousPlayer implements Player {
 	assert reply >=-1 && reply <=1 : "reply must be in [-1, 1] but is" + reply;
 
 	int resultingNumber = (opponentNumber + reply) / 3;
-	Move.REPLY normalizedReply = normalizeReply(reply);
+	MoveReply normalizedMoveReply = normalizeReply(reply);
 
-	Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedReply, resultingNumber);
+	Move replyMove = new Move(opponentMove.getGameUuid(), playerIdentifier, opponentMove.getPlayer(), normalizedMoveReply, resultingNumber);
 	playerEventsListeners.forEach(listener -> listener.onPlayTurn(replyMove, opponentMove));
 	gameTable.acceptMove(replyMove);
     }

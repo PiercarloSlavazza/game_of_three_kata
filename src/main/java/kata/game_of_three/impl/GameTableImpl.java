@@ -43,26 +43,11 @@ public class GameTableImpl implements GameTable {
         return gameUuid;
     }
 
-    private int getAddedNumber(Move move) {
-        return move.getReply().map(reply -> {
-	    switch (reply) {
-		case ZERO:
-		    return 0;
-		case ONE:
-		    return 1;
-		case MINUS_ONE:
-		    return -1;
-		default:
-		    throw new RuntimeException("unknown reply|" + move.getReply());
-	    }
-	}).orElseThrow(() -> new IllegalStateException("reply is missing from move|" + move));
-    }
-
     private boolean isValidNumber(Move move, Move lastMove) {
 	Integer moveNumber = move.getResultingNumber();
 	if (moveNumber < 1) return false;
 
-	int addedNumber = getAddedNumber(move);
+	int addedNumber = move.getMoveReply().map(MoveReply::getValue).orElseThrow(() -> new IllegalStateException("reply is missing from move|" + move));
 	return ((double)(lastMove.getResultingNumber() + addedNumber) / 3f) == moveNumber;
     }
 

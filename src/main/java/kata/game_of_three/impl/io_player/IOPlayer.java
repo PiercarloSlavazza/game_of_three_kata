@@ -26,10 +26,10 @@ import java.util.Scanner;
 	return playerIdentifier;
     }
 
-    private Optional<Move.REPLY> normalizeReply(int reply) {
-	if (reply == 0) return Optional.of(Move.REPLY.ZERO);
-	if (reply == -1) return  Optional.of(Move.REPLY.MINUS_ONE);
-	if (reply == 1) return Optional.of(Move.REPLY.ONE);
+    private Optional<MoveReply> normalizeReply(int reply) {
+	if (reply == 0) return Optional.of(MoveReply.ZERO);
+	if (reply == -1) return  Optional.of(MoveReply.MINUS_ONE);
+	if (reply == 1) return Optional.of(MoveReply.ONE);
 	return Optional.empty();
     }
 
@@ -46,7 +46,7 @@ import java.util.Scanner;
 	do {
 	    try {
 		int reply = scanner.nextInt();
-		Optional<Move.REPLY> normalizedReply = normalizeReply(reply);
+		Optional<MoveReply> normalizedReply = normalizeReply(reply);
 		if (!normalizedReply.isPresent()) {
 		    printStream.println(formatWrongInputMessage(Optional.of(reply)));
 		    continue;

@@ -34,17 +34,17 @@ public class AutonomousPlayersIntegrationTest {
 	UUID gameUuid = gameTable.invitePlayerAndReturnGameUuid(playerInvitation);
 
 	List<Turn> expectedTurns = new ArrayList<>();
-	expectedTurns.add(new Turn(new Move(gameUuid, player2Identifier, player1Identifier, Move.REPLY.ONE, 19),
+	expectedTurns.add(new Turn(new Move(gameUuid, player2Identifier, player1Identifier, MoveReply.ONE, 19),
 				   new Move(gameUuid, player1Identifier, player2Identifier, 56)));
 
-	expectedTurns.add(new Turn(new Move(gameUuid, player1Identifier, player2Identifier, Move.REPLY.MINUS_ONE, 6),
-				   new Move(gameUuid, player2Identifier, player1Identifier, Move.REPLY.ONE, 19)));
+	expectedTurns.add(new Turn(new Move(gameUuid, player1Identifier, player2Identifier, MoveReply.MINUS_ONE, 6),
+				   new Move(gameUuid, player2Identifier, player1Identifier, MoveReply.ONE, 19)));
 
-	expectedTurns.add(new Turn(new Move(gameUuid, player2Identifier, player1Identifier, Move.REPLY.ZERO, 2),
-				   new Move(gameUuid, player1Identifier, player2Identifier, Move.REPLY.MINUS_ONE, 6)));
+	expectedTurns.add(new Turn(new Move(gameUuid, player2Identifier, player1Identifier, MoveReply.ZERO, 2),
+				   new Move(gameUuid, player1Identifier, player2Identifier, MoveReply.MINUS_ONE, 6)));
 
-	expectedTurns.add(new Turn(new Move(gameUuid, player1Identifier, player2Identifier, Move.REPLY.ONE, 1),
-				   new Move(gameUuid, player2Identifier, player1Identifier, Move.REPLY.ZERO, 2)));
+	expectedTurns.add(new Turn(new Move(gameUuid, player1Identifier, player2Identifier, MoveReply.ONE, 1),
+				   new Move(gameUuid, player2Identifier, player1Identifier, MoveReply.ZERO, 2)));
 	assertEquals(expectedTurns, autonomousPlayerEventsCollector.getRecordedTurns());
 
 	List<PlayerEndGame> expectedPlayerEndGames = new ArrayList<>();

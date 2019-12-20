@@ -2,6 +2,7 @@ package kata.game_of_three.impl.io_player;
 
 import kata.game_of_three.GameTable;
 import kata.game_of_three.Move;
+import kata.game_of_three.MoveReply;
 import kata.game_of_three.Player;
 import kata.game_of_three.impl.GameOfThreeMockUtils;
 import org.apache.commons.io.IOUtils;
@@ -30,10 +31,10 @@ public class IOPlayerTest {
 
 	    UUID gameUuid = UUID.randomUUID();
 
-	    Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), ioPlayer.getIdentifier(), Move.REPLY.ZERO, 14);
+	    Move player1Move = new Move(gameUuid, opponentPlayer.getIdentifier(), ioPlayer.getIdentifier(), MoveReply.ZERO, 14);
 	    ioPlayer.playTurn(player1Move);
 
-	    Move expectedMove = new Move(gameUuid, ioPlayer.getIdentifier(), opponentPlayer.getIdentifier(), Move.REPLY.ONE, 5);
+	    Move expectedMove = new Move(gameUuid, ioPlayer.getIdentifier(), opponentPlayer.getIdentifier(), MoveReply.ONE, 5);
 	    Mockito.verify(gameTable, times(1)).acceptMove(expectedMove);
 
 	    outputStream.close();

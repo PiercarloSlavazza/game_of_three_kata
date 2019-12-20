@@ -6,14 +6,10 @@ import java.util.UUID;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType") public class Move {
 
-    public enum REPLY {
-	ZERO, ONE, MINUS_ONE
-    }
-
     private UUID gameUuid;
     private PlayerIdentifier player;
     private PlayerIdentifier opponent;
-    private REPLY reply;
+    private MoveReply moveReply;
     private Integer resultingNumber;
 
     @SuppressWarnings("unused") private Move() {}
@@ -22,15 +18,15 @@ import java.util.UUID;
         this(gameUuid, player, opponent, Optional.empty(), resultingNumber);
     }
 
-    public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, REPLY reply, Integer resultingNumber) {
-        this(gameUuid, player, opponent, Optional.of(reply), resultingNumber);
+    public Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, MoveReply moveReply, Integer resultingNumber) {
+        this(gameUuid, player, opponent, Optional.of(moveReply), resultingNumber);
     }
 
-    private Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, Optional<REPLY> reply, Integer resultingNumber) {
+    private Move(UUID gameUuid, PlayerIdentifier player, PlayerIdentifier opponent, Optional<MoveReply> reply, Integer resultingNumber) {
 	this.gameUuid = gameUuid;
 	this.player = player;
 	this.opponent = opponent;
-	this.reply = reply.orElse(null);
+	this.moveReply = reply.orElse(null);
 	this.resultingNumber = resultingNumber;
     }
 
@@ -46,8 +42,8 @@ import java.util.UUID;
 	return opponent;
     }
 
-    public Optional<REPLY> getReply() {
-	return Optional.ofNullable(reply);
+    public Optional<MoveReply> getMoveReply() {
+	return Optional.ofNullable(moveReply);
     }
 
     public Integer getResultingNumber() {
@@ -59,7 +55,7 @@ import java.util.UUID;
 			"gameUuid=" + gameUuid +
 			", player=" + player +
 			", opponent=" + opponent +
-			", reply=" + reply +
+			", moveReply=" + moveReply +
 			", resultingNumber=" + resultingNumber +
 			'}';
     }
@@ -73,11 +69,11 @@ import java.util.UUID;
 	return Objects.equals(gameUuid, move.gameUuid) &&
 			Objects.equals(player, move.player) &&
 			Objects.equals(opponent, move.opponent) &&
-			reply == move.reply &&
+			moveReply == move.moveReply &&
 			Objects.equals(resultingNumber, move.resultingNumber);
     }
 
     @Override public int hashCode() {
-	return Objects.hash(gameUuid, player, opponent, reply, resultingNumber);
+	return Objects.hash(gameUuid, player, opponent, moveReply, resultingNumber);
     }
 }
