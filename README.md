@@ -26,6 +26,10 @@ The programs behave as follow:
 
 One might argue that also the communication from the Players to the Game Table could go through the queue: it could be so, but for the time being, we assume that the Game Table is supposed to be always online and therefore it is enough to use the Rest API.
 
+## UML
+
+Class diagram: ![Class Diagram](uml/class_diagram.png?raw=true "Class Diagram").
+
 ## Implementation Details
 
 The `game-of-three-server` has been implemented as a [Dropwizard](https://www.dropwizard.io) application; its API has a [Swagger](https://swagger.io/) end-point, and therefore the client is automatically generated via [`swagger-codegen`](https://github.com/swagger-api/swagger-codegen).
