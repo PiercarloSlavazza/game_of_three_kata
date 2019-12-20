@@ -89,5 +89,12 @@ public class QueueConsumerPlayer implements Player {
 
     @Override public void endGame(GameResult gameResult) {
         player.endGame(gameResult);
+
+	try {
+	    channel.close();
+	    connection.close();
+	} catch (IOException | TimeoutException e) {
+	    throw new RuntimeException(e);
+	}
     }
 }
