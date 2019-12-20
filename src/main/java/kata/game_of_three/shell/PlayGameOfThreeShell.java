@@ -39,6 +39,10 @@ interface PlayGameOfThreeShellConfig {
     String getRabbitMQHost();
 
     @Option
+    Integer getRabbitMQPort();
+    Boolean isRabbitMQPort();
+
+    @Option
     Boolean getAutoPlay();
     Boolean isAutoPlay();
 
@@ -87,6 +91,7 @@ public class PlayGameOfThreeShell {
 
 	ConnectionFactory connectionFactory = new ConnectionFactory();
 	connectionFactory.setHost(config.getRabbitMQHost());
+	if (config.isRabbitMQPort()) connectionFactory.setPort(config.getRabbitMQPort());
 
 	PlayerIdentifier playerIdentifier = new PlayerIdentifier(config.getPlayerId());
 
