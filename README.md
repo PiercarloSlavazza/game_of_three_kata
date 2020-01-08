@@ -1,12 +1,12 @@
 # Overview
 
-In this project, we implemented the code kata "Game Of Three", as defined in the PDF document `./game-of-three-code-kata.pdf`.
+In this project, we implemented the code kata "Game Of Three", as defined in this [PDF document](https://github.com/decoursin/game-of-three-bash/blob/master/Game%20of%20Three%20-%20Coding%20Challenge.pdf) (the [original definition](https://www.reddit.com/r/dailyprogrammer/comments/3r7wxz/20151102_challenge_239_easy_a_game_of_threes/) is way more simple).
 
 # Design
 
 The specification is a bit loose about the soundness of the game: the main point is that it lacks a "game referee" which is entitled to independently judge whether the move of a player is compliant wrt the rules, and, of course, is entitled to judge which player won the game.
 
-Moreover, the specification lacks details wrt the players must be always "online" to play the game, or they can go offline at any time and resume the game when they come back online.
+Moreover, the specification lacks details wrt whether the players must be always "online" to play the game, or they can go offline at any time and resume the game when they come back online.
 
 In order to address these issues, we introduced the concept of a "Game Table":
 
